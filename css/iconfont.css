@@ -1,0 +1,60 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4800000 */
+  src: url('../fonts/iconfont.woff2?t=1761580000') format('woff2'),
+       url('../fonts/iconfont.woff?t=1761580000') format('woff'),
+       url('../fonts/iconfont.ttf?t=1761580000') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-home:before {
+  content: "\e600";  /* 首页 */
+}
+.icon-category:before {
+  content: "\e601";  /* 分类 */
+}
+.icon-cart:before {
+  content: "\e602";  /* 购物车 */
+}
+.icon-order:before {
+  content: "\e603";  /* 订单 */
+}
+.icon-mine:before {
+  content: "\e604";  /* 我的 */
+}
+.icon-search:before {
+  content: "\e605";  /* 搜索 */
+}
+.icon-star:before {
+  content: "\e606";  /* 收藏 */
+}
+.icon-heart:before {
+  content: "\e607";  /* 喜欢 */
+}
+.icon-bell:before {
+  content: "\e608";  /* 消息 */
+}
+.icon-plus:before {
+  content: "\e609";  /* 加号 */
+}
+.icon-location:before {
+  content: "\e60a";  /* 定位 */
+}
+.icon-arrow-left:before {
+  content: "\e60b";  /* 返回 */
+}
+.icon-arrow-right:before {
+  content: "\e60c";  /* 前进 */
+}
+.icon-more:before {
+  content: "\e60d";  /* 更多 */
+}
+.icon-scan:before {
+  content: "\e60e";  /* 扫一扫 */
+}

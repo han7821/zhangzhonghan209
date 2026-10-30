@@ -1,0 +1,317 @@
+/* =========================================================
+   全局样式表  global.css
+   项目：ZZH优选 · 电商商城（高级网页设计I 三级项目）
+   作者：张仲涵   学号：2023xxxxxx
+   说明：全局 reset + CSS 变量 + 公共组件 + 各页面样式
+         所有业务类名统一使用姓名缩写前缀 zzh-
+   ========================================================= */
+
+/* ---------- 1. Reset ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",
+               "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+  background: #f5f6f7;
+  -webkit-font-smoothing: antialiased;
+}
+ul, ol, li { list-style: none; }
+a { text-decoration: none; color: inherit; }
+i, em { font-style: normal; }
+img { display: block; max-width: 100%; }
+button { border: 0; background: none; font-family: inherit; cursor: pointer; }
+input { border: 0; outline: none; font-family: inherit; }
+
+/* ---------- 2. 全局 CSS 变量 ---------- */
+:root {
+  --zzh-primary: #ff5000;        /* 主色：电商橙 */
+  --zzh-primary-light: #fff3ec;
+  --zzh-danger:  #ff4d4f;
+  --zzh-success: #52c41a;
+  --zzh-text:    #333;
+  --zzh-text-2:  #666;
+  --zzh-text-3:  #999;
+  --zzh-bg:      #f5f6f7;
+  --zzh-white:   #fff;
+  --zzh-line:    #ededed;
+  --zzh-radius:  10px;
+  --zzh-nav-h:   54px;           /* 下导航高度 */
+  --zzh-header-h: 48px;
+}
+
+/* ---------- 3. 公共工具类 ---------- */
+.zzh-ellipsis { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.zzh-ellipsis2 {
+  overflow: hidden; display: -webkit-box;
+  -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+.zzh-flex { display: flex; align-items: center; }
+.zzh-flex1 { flex: 1; }
+.zzh-price { color: var(--zzh-danger); font-weight: 700; }
+.zzh-price::before { content: "¥"; font-size: .72em; margin-right: 1px; }
+
+/* ---------- 4. 应用容器（移动端优先，桌面居中限宽） ---------- */
+.zzh-app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--zzh-bg);
+  position: relative;
+  padding-bottom: calc(var(--zzh-nav-h) + 12px);
+}
+.zzh-page { display: none; }
+.zzh-page--active { display: block; animation: zzh-fade .25s ease; }
+@keyframes zzh-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---------- 5. 顶部搜索栏 ---------- */
+.zzh-header {
+  height: var(--zzh-header-h);
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 12px;
+  background: linear-gradient(90deg, #ff6a00, var(--zzh-primary));
+  color: #fff;
+  position: sticky; top: 0; z-index: 20;
+}
+.zzh-header__loc { font-size: 14px; display: flex; align-items: center; gap: 2px; }
+.zzh-header__loc .iconfont { font-size: 16px; }
+.zzh-search {
+  flex: 1; height: 30px;
+  background: #fff; border-radius: 15px;
+  display: flex; align-items: center; gap: 6px;
+  padding: 0 12px; color: var(--zzh-text-3); font-size: 13px;
+}
+.zzh-search .iconfont { font-size: 15px; }
+.zzh-header__scan .iconfont { font-size: 20px; }
+
+/* ---------- 6. 轮播 Banner ---------- */
+.zzh-banner {
+  margin: 10px 12px 0;
+  height: 120px; border-radius: var(--zzh-radius);
+  background: linear-gradient(135deg, #ff9a44 0%, #ff5000 55%, #e63946 100%);
+  color: #fff; padding: 20px;
+  display: flex; flex-direction: column; justify-content: center;
+  overflow: hidden; position: relative;
+}
+.zzh-banner__title { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
+.zzh-banner__desc { font-size: 12px; opacity: .9; margin-top: 6px; }
+.zzh-banner__tag {
+  position: absolute; right: 14px; bottom: 14px;
+  font-size: 11px; padding: 3px 10px;
+  background: rgba(255, 255, 255, .22); border-radius: 20px;
+}
+
+/* ---------- 7. 公告条 ---------- */
+.zzh-notice {
+  margin: 10px 12px 0; padding: 0 10px; height: 32px;
+  background: var(--zzh-primary-light); border-radius: 8px;
+  display: flex; align-items: center; gap: 8px;
+  color: var(--zzh-primary); font-size: 12px;
+}
+.zzh-notice .iconfont { font-size: 14px; }
+
+/* ---------- 8. 金刚区分类 ---------- */
+.zzh-cates {
+  margin: 12px 12px 0; padding: 16px 8px 6px;
+  background: #fff; border-radius: var(--zzh-radius);
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 4px;
+}
+.zzh-cate { text-align: center; }
+.zzh-cate__icon {
+  width: 44px; height: 44px; margin: 0 auto;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+.zzh-cate__icon .iconfont { font-size: 22px; color: #fff; }
+.zzh-cate__name { font-size: 12px; color: var(--zzh-text-2); margin-top: 6px; }
+
+/* ---------- 9. 秒杀楼层 ---------- */
+.zzh-sec {
+  margin: 12px 12px 0; background: #fff;
+  border-radius: var(--zzh-radius); padding: 12px;
+}
+.zzh-sec__head { display: flex; align-items: center; margin-bottom: 10px; }
+.zzh-sec__title { font-size: 16px; font-weight: 700; }
+.zzh-sec__title::before {
+  content: ""; width: 4px; height: 16px; border-radius: 2px;
+  background: var(--zzh-primary); margin-right: 8px; display: inline-block;
+}
+.zzh-sec__more { margin-left: auto; font-size: 12px; color: var(--zzh-text-3); }
+.zzh-sec__more .iconfont { font-size: 12px; }
+.zzh-flash { display: flex; gap: 10px; overflow-x: auto; }
+.zzh-flash__item { flex: 0 0 88px; text-align: center; }
+.zzh-flash__img {
+  width: 88px; height: 88px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 13px; font-weight: 700;
+}
+.zzh-flash__price { margin-top: 6px; font-size: 15px; }
+.zzh-flash__old { font-size: 11px; color: var(--zzh-text-3); text-decoration: line-through; }
+
+/* ---------- 10. 商品列表 ---------- */
+.zzh-goods {
+  margin: 12px 12px 0;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.zzh-card {
+  background: #fff; border-radius: var(--zzh-radius);
+  overflow: hidden; box-shadow: 0 1px 4px rgba(0, 0, 0, .04);
+}
+.zzh-card__img {
+  height: 150px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 26px; font-weight: 700; letter-spacing: 2px;
+}
+.zzh-card__body { padding: 8px 10px 10px; }
+.zzh-card__name { font-size: 13px; line-height: 18px; height: 36px; }
+.zzh-card__foot { display: flex; align-items: baseline; margin-top: 6px; }
+.zzh-card__price { font-size: 17px; }
+.zzh-card__sales { margin-left: auto; font-size: 11px; color: var(--zzh-text-3); }
+.zzh-card__tag {
+  display: inline-block; font-size: 10px; color: var(--zzh-danger);
+  border: 1px solid currentColor; border-radius: 3px;
+  padding: 0 4px; margin-right: 4px;
+}
+
+/* ---------- 11. 下导航（核心组件） ---------- */
+.zzh-nav {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px;
+  height: var(--zzh-nav-h);
+  background: #fff;
+  border-top: 1px solid var(--zzh-line);
+  display: flex;
+  z-index: 30;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.zzh-nav__item {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 3px;
+  color: var(--zzh-text-2); font-size: 11px;
+  position: relative;
+  transition: color .2s;
+}
+.zzh-nav__item .iconfont { font-size: 23px; line-height: 1; }
+.zzh-nav__item--active { color: var(--zzh-primary); font-weight: 600; }
+.zzh-nav__badge {
+  position: absolute; top: 4px; left: 58%;
+  min-width: 16px; height: 16px; line-height: 16px;
+  background: var(--zzh-danger); color: #fff;
+  border-radius: 8px; font-size: 10px; padding: 0 4px;
+  text-align: center;
+}
+
+/* ---------- 12. 购物车 / 订单 / 我的 等子页面 ---------- */
+.zzh-subhead {
+  height: var(--zzh-header-h); background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 600;
+  position: sticky; top: 0; z-index: 20;
+  border-bottom: 1px solid var(--zzh-line);
+}
+.zzh-cart-item {
+  margin: 10px 12px 0; background: #fff; border-radius: var(--zzh-radius);
+  padding: 12px; display: flex; gap: 10px;
+}
+.zzh-cart-item__check {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 1px solid #ccc; margin-top: 40px; flex: none;
+}
+.zzh-cart-item__check--on { background: var(--zzh-primary); border-color: var(--zzh-primary); position: relative; }
+.zzh-cart-item__check--on::after {
+  content: ""; position: absolute; left: 5px; top: 2px;
+  width: 5px; height: 9px; border: solid #fff; border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.zzh-cart-item__img {
+  width: 84px; height: 84px; border-radius: 8px; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 15px; font-weight: 700;
+}
+.zzh-cart-item__name { font-size: 13px; }
+.zzh-cart-item__sku { font-size: 11px; color: var(--zzh-text-3); margin-top: 4px; }
+.zzh-cart-item__foot { display: flex; align-items: center; margin-top: 10px; }
+.zzh-stepper { margin-left: auto; display: flex; align-items: center; gap: 2px; }
+.zzh-stepper button {
+  width: 22px; height: 22px; border: 1px solid var(--zzh-line);
+  border-radius: 4px; font-size: 14px; color: var(--zzh-text-2);
+}
+.zzh-stepper span { min-width: 30px; text-align: center; font-size: 13px; }
+.zzh-cart-bar {
+  position: fixed; bottom: var(--zzh-nav-h); left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px; height: 46px;
+  background: #fff; border-top: 1px solid var(--zzh-line);
+  display: flex; align-items: center; padding: 0 12px; gap: 10px;
+  z-index: 25;
+}
+.zzh-cart-bar__total { margin-left: auto; font-size: 14px; }
+.zzh-cart-bar__btn {
+  width: 96px; height: 34px; border-radius: 17px;
+  background: var(--zzh-primary); color: #fff; font-size: 14px;
+}
+
+.zzh-orders { display: flex; background: #fff; margin-bottom: 8px; }
+.zzh-orders__tab {
+  flex: 1; text-align: center; padding: 12px 0; font-size: 13px;
+  color: var(--zzh-text-2); border-bottom: 2px solid transparent;
+}
+.zzh-orders__tab--on { color: var(--zzh-primary); border-color: var(--zzh-primary); font-weight: 600; }
+
+.zzh-order-item {
+  margin: 10px 12px 0; background: #fff; border-radius: var(--zzh-radius); padding: 12px;
+}
+.zzh-order-item__head { display: flex; font-size: 12px; color: var(--zzh-text-3); }
+.zzh-order-item__status { margin-left: auto; color: var(--zzh-primary); }
+.zzh-order-item__goods { display: flex; gap: 8px; margin: 10px 0; }
+.zzh-order-item__thumb {
+  width: 60px; height: 60px; border-radius: 6px; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 12px; font-weight: 700;
+}
+.zzh-order-item__foot { display: flex; justify-content: flex-end; gap: 8px; }
+.zzh-btn {
+  height: 28px; padding: 0 14px; border-radius: 14px; font-size: 12px;
+  border: 1px solid var(--zzh-line); color: var(--zzh-text-2);
+}
+.zzh-btn--primary { background: var(--zzh-primary); color: #fff; border-color: var(--zzh-primary); }
+
+.zzh-me-head {
+  padding: 24px 16px 30px;
+  background: linear-gradient(120deg, #ff8a3d, var(--zzh-primary) 60%, #e63946);
+  color: #fff; display: flex; align-items: center; gap: 14px;
+}
+.zzh-me-head__avatar {
+  width: 58px; height: 58px; border-radius: 50%;
+  background: rgba(255, 255, 255, .25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+}
+.zzh-me-head__avatar .iconfont { font-size: 30px; }
+.zzh-me-head__name { font-size: 18px; font-weight: 700; }
+.zzh-me-head__id { font-size: 11px; opacity: .85; margin-top: 4px; }
+.zzh-me-entries {
+  margin: -18px 12px 0; background: #fff; border-radius: var(--zzh-radius);
+  display: flex; padding: 14px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+}
+.zzh-me-entry { flex: 1; text-align: center; }
+.zzh-me-entry .iconfont { font-size: 24px; color: var(--zzh-primary); }
+.zzh-me-entry p { font-size: 12px; margin-top: 4px; color: var(--zzh-text-2); }
+.zzh-me-list { margin: 12px 12px 0; background: #fff; border-radius: var(--zzh-radius); }
+.zzh-me-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px; font-size: 14px;
+  border-bottom: 1px solid var(--zzh-line);
+}
+.zzh-me-row:last-child { border-bottom: 0; }
+.zzh-me-row .iconfont { font-size: 18px; color: var(--zzh-primary); }
+.zzh-me-row__arrow { margin-left: auto; color: #ccc; font-size: 14px; }
+.zzh-copyright { text-align: center; font-size: 11px; color: #bbb; padding: 18px 0 6px; }
+
+/* ---------- 13. 响应式：平板及以上 ---------- */
+@media (min-width: 768px) {
+  body { background: #e9eaec; }
+  .zzh-app { box-shadow: 0 0 24px rgba(0, 0, 0, .12); }
+}

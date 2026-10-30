@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>下导航 · 设计原图（线框图）</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Microsoft YaHei",sans-serif;background:#fafafa;color:#555;padding:28px}
+  .canvas{width:390px;margin:0 auto;background:#fff;border:1px solid #e2e2e2;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+  .ph{background:#f0f1f3;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#b6b9be;font-size:12px}
+  .hd{height:48px;border-bottom:1px dashed #d9dbde;display:flex;align-items:center;gap:10px;padding:0 14px}
+  .hd .c{width:56px;height:14px}
+  .hd .s{flex:1;height:24px;border-radius:12px}
+  .bn{height:110px;margin:12px}
+  .nt{height:26px;margin:0 12px;border-radius:4px;background:#eef7ee;display:flex;align-items:center;padding:0 10px;gap:8px}
+  .nt .i{width:12px;height:12px;border:1.5px solid #9bbf9b;border-radius:2px}
+  .nt .t{flex:1;height:8px;border-radius:4px}
+  .gd{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 6px;margin:14px 12px;padding:14px 6px;border:1px dashed #e2e2e2;border-radius:8px}
+  .gd .it{text-align:center}
+  .gd .it .ic{width:40px;height:40px;border-radius:12px;margin:0 auto;background:#f0f1f3}
+  .gd .it .tx{width:34px;height:7px;margin:6px auto 0;border-radius:4px;background:#f0f1f3}
+  .nav{height:56px;border-top:1.5px solid #d9dbde;display:flex;background:#fff}
+  .nav .n{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;position:relative}
+  .nav .n .ic{width:22px;height:22px;border:1.5px solid #9a9da3;border-radius:4px}
+  .nav .n .tx{width:26px;height:7px;border-radius:4px;background:#e3e5e8}
+  .nav .n.on .ic{border-color:#ff5000;background:#fff0e8}
+  .nav .n.on .tx{background:#ff5000}
+  .nav .n .bd{position:absolute;top:5px;right:26%;min-width:15px;height:15px;border-radius:8px;background:#ff4d4f;color:#fff;font-size:9px;line-height:15px;text-align:center}
+  .ann{font-size:11px;color:#ff5000;font-weight:600}
+  .spec{width:390px;margin:16px auto 0;font-size:12px;color:#888;line-height:2;background:#fff;border:1px solid #e2e2e2;border-radius:10px;padding:14px 18px}
+  .spec b{color:#333}
+  h1{font-size:18px;text-align:center;margin-bottom:6px}
+  .sub{text-align:center;font-size:12px;color:#999;margin-bottom:18px}
+</style>
+</head>
+<body>
+  <h1>下导航 · 设计原图（低保真线框图）</h1>
+  <div class="sub">ZZH优选 电商商城 · 移动端 375×667 设计稿 · 作者：张仲涵（学号 2023xxxxxx）</div>
+
+  <div class="canvas">
+    <div class="hd">
+      <div class="ph c" style="border:1px dashed #d9dbde">定位</div>
+      <div class="ph s" style="border:1px dashed #d9dbde">搜索框</div>
+      <div class="ph c" style="border:1px dashed #d9dbde">扫码</div>
+    </div>
+    <div class="ph bn" style="border:1px dashed #d9dbde">Banner 轮播 375×120</div>
+    <div class="nt"><span class="i"></span><span class="t"></span><span class="t" style="flex:.4"></span></div>
+    <div class="gd">
+      <div class="it"><div class="ic"></div><div class="tx"></div></div>
+      <div class="it"><div class="ic"></div><div class="tx"></div></div>
+      <div class="it"><div class="ic"></div><div class="tx"></div></div>
+      <div class="it"><div class="ic"></div><div class="tx"></div></div>
+      <div class="it"><div class="ic"></div><div class="tx"></div></div>
+      <div class="it"><div class="ic"></div><div class="tx"></div></div>
+      <div class="it"><div class="ic"></div><div class="tx"></div></div>
+      <div class="it"><div class="ic"></div><div class="tx"></div></div>
+    </div>
+    <div style="text-align:center;margin:4px 0 8px"><span class="ann">— 下导航 TabBar 375×54 —</span></div>
+    <div class="nav">
+      <div class="n on"><div class="ic"></div><div class="tx"></div></div>
+      <div class="n"><div class="ic"></div><div class="tx"></div></div>
+      <div class="n"><div class="ic"></div><div class="tx"></div><span class="bd">2</span></div>
+      <div class="n"><div class="ic"></div><div class="tx"></div></div>
+      <div class="n"><div class="ic"></div><div class="tx"></div></div>
+    </div>
+  </div>
+
+  <div class="spec">
+    <b>设计规格说明</b><br>
+    · 导航高度：54px（含 1px 上边框 + 安全区适配 env(safe-area-inset-bottom)）<br>
+    · 5 个 Tab 等分：首页 / 分类 / 购物车 / 订单 / 我的<br>
+    · 图标：iconfont 字体图标 23px，文字 11px，图标与文字间距 3px<br>
+    · 默认色 #666，选中色 #ff5000 并加粗；购物车右上角红色徽标（未读数）<br>
+    · 定位：position: fixed; bottom: 0，配合 max-width: 480px 居中限宽
+  </div>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--
+  ============================================================
+  高级网页设计I · 三级项目：ZZH优选 电商商城（移动端）
+  学号：2023xxxxxx   姓名：张仲涵
+  图标方案：iconfont Font class（字体图标）
+  类名约定：统一使用姓名缩写前缀 zzh-
+  ============================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="author" content="张仲涵 2023xxxxxx">
+  <title>ZZH优选 - 电商商城</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/iconfont.css">
+</head>
+<body>
+
+<main class="zzh-app">
+
+  <!-- ================= 首页 ================= -->
+  <section class="zzh-page zzh-page--active" id="page-home">
+    <header class="zzh-header">
+      <span class="zzh-header__loc"><i class="iconfont icon-location"></i>大连</span>
+      <div class="zzh-search">
+        <i class="iconfont icon-search"></i>
+        <input class="zzh-flex1" type="search" placeholder="搜索商品 / 品牌 / 店铺">
+      </div>
+      <span class="zzh-header__scan"><i class="iconfont icon-scan"></i></span>
+    </header>
+
+    <div class="zzh-banner">
+      <div class="zzh-banner__title">11.11 全球好物节</div>
+      <div class="zzh-banner__desc">跨店每满 300 减 50 · 上不封顶</div>
+      <span class="zzh-banner__tag">立即抢购 →</span>
+    </div>
+
+    <div class="zzh-notice">
+      <i class="iconfont icon-bell"></i>
+      <span class="zzh-ellipsis zzh-flex1">公告：新用户首单立减 30 元，速来领取新人礼包！</span>
+    </div>
+
+    <!-- 金刚区 -->
+    <ul class="zzh-cates">
+      <li class="zzh-cate">
+        <span class="zzh-cate__icon" style="background:linear-gradient(135deg,#ff9a44,#ff5000)"><i class="iconfont icon-cart"></i></span>
+        <p class="zzh-cate__name">服饰鞋包</p>
+      </li>
+      <li class="zzh-cate">
+        <span class="zzh-cate__icon" style="background:linear-gradient(135deg,#4facfe,#00c6fb)"><i class="iconfont icon-scan"></i></span>
+        <p class="zzh-cate__name">数码家电</p>
+      </li>
+      <li class="zzh-cate">
+        <span class="zzh-cate__icon" style="background:linear-gradient(135deg,#f78fb3,#ff4d94)"><i class="iconfont icon-heart"></i></span>
+        <p class="zzh-cate__name">美妆个护</p>
+      </li>
+      <li class="zzh-cate">
+        <span class="zzh-cate__icon" style="background:linear-gradient(135deg,#43e97b,#38f9d7)"><i class="iconfont icon-star"></i></span>
+        <p class="zzh-cate__name">生鲜水果</p>
+      </li>
+      <li class="zzh-cate">
+        <span class="zzh-cate__icon" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)"><i class="iconfont icon-plus"></i></span>
+        <p class="zzh-cate__name">家居生活</p>
+      </li>
+      <li class="zzh-cate">
+        <span class="zzh-cate__icon" style="background:linear-gradient(135deg,#f6d365,#fda085)"><i class="iconfont icon-order"></i></span>
+        <p class="zzh-cate__name">食品酒水</p>
+      </li>
+      <li class="zzh-cate">
+        <span class="zzh-cate__icon" style="background:linear-gradient(135deg,#30cfd0,#330867)"><i class="iconfont icon-more"></i></span>
+        <p class="zzh-cate__name">运动户外</p>
+      </li>
+      <li class="zzh-cate">
+        <span class="zzh-cate__icon" style="background:linear-gradient(135deg,#5ee7df,#b490ca)"><i class="iconfont icon-bell"></i></span>
+        <p class="zzh-cate__name">图书文娱</p>
+      </li>
+    </ul>
+
+    <!-- 限时秒杀 -->
+    <div class="zzh-sec">
+      <div class="zzh-sec__head">
+        <span class="zzh-sec__title">限时秒杀</span>
+        <span class="zzh-sec__more">更多<i class="iconfont icon-arrow-right"></i></span>
+      </div>
+      <div class="zzh-flash">
+        <div class="zzh-flash__item">
+          <div class="zzh-flash__img" style="background:linear-gradient(135deg,#ff9a44,#ff5000)">无线耳机</div>
+          <p class="zzh-flash__price zzh-price">99</p>
+          <p class="zzh-flash__old">¥299</p>
+        </div>
+        <div class="zzh-flash__item">
+          <div class="zzh-flash__img" style="background:linear-gradient(135deg,#4facfe,#00c6fb)">智能手表</div>
+          <p class="zzh-flash__price zzh-price">199</p>
+          <p class="zzh-flash__old">¥599</p>
+        </div>
+        <div class="zzh-flash__item">
+          <div class="zzh-flash__img" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">保温杯</div>
+          <p class="zzh-flash__price zzh-price">39</p>
+          <p class="zzh-flash__old">¥89</p>
+        </div>
+        <div class="zzh-flash__item">
+          <div class="zzh-flash__img" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">洗衣液</div>
+          <p class="zzh-flash__price zzh-price">29.9</p>
+          <p class="zzh-flash__old">¥69</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 猜你喜欢 -->
+    <div class="zzh-sec">
+      <div class="zzh-sec__head"><span class="zzh-sec__title">猜你喜欢</span></div>
+    </div>
+    <ul class="zzh-goods">
+      <li class="zzh-card">
+        <div class="zzh-card__img" style="background:linear-gradient(135deg,#36d1dc,#5b86e5)">旗舰手机</div>
+        <div class="zzh-card__body">
+          <p class="zzh-card__name zzh-ellipsis2"><span class="zzh-card__tag">直降</span>ZZH 旗舰智能手机 12G+256G 星空蓝 全网通</p>
+          <div class="zzh-card__foot">
+            <span class="zzh-card__price zzh-price">3999</span>
+            <span class="zzh-card__sales">已售 1.2 万</span>
+          </div>
+        </div>
+      </li>
+      <li class="zzh-card">
+        <div class="zzh-card__img" style="background:linear-gradient(135deg,#f6d365,#fda085)">轻奢女包</div>
+        <div class="zzh-card__body">
+          <p class="zzh-card__name zzh-ellipsis2"><span class="zzh-card__tag">爆款</span>头层牛皮单肩斜挎小方包 2026 秋冬新款</p>
+          <div class="zzh-card__foot">
+            <span class="zzh-card__price zzh-price">268</span>
+            <span class="zzh-card__sales">已售 8632</span>
+          </div>
+        </div>
+      </li>
+      <li class="zzh-card">
+        <div class="zzh-card__img" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">冰鲜三文鱼</div>
+        <div class="zzh-card__body">
+          <p class="zzh-card__name zzh-ellipsis2"><span class="zzh-card__tag">秒杀</span>冰鲜三文鱼刺身中段 500g 顺丰冷链包邮</p>
+          <div class="zzh-card__foot">
+            <span class="zzh-card__price zzh-price">88</span>
+            <span class="zzh-card__sales">已售 4206</span>
+          </div>
+        </div>
+      </li>
+      <li class="zzh-card">
+        <div class="zzh-card__img" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">运动跑鞋</div>
+        <div class="zzh-card__body">
+          <p class="zzh-card__name zzh-ellipsis2"><span class="zzh-card__tag">新品</span>超轻缓震跑步鞋 情侣款 透气网面运动鞋</p>
+          <div class="zzh-card__foot">
+            <span class="zzh-card__price zzh-price">329</span>
+            <span class="zzh-card__sales">已售 6688</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ================= 分类 ================= -->
+  <section class="zzh-page" id="page-category">
+    <div class="zzh-subhead">分类</div>
+    <div class="zzh-sec" style="margin-top:12px">
+      <div class="zzh-sec__head"><span class="zzh-sec__title">热门分类</span></div>
+      <ul class="zzh-cates" style="margin:0;padding:0">
+        <li class="zzh-cate"><span class="zzh-cate__icon" style="background:linear-gradient(135deg,#ff9a44,#ff5000)"><i class="iconfont icon-cart"></i></span><p class="zzh-cate__name">男装</p></li>
+        <li class="zzh-cate"><span class="zzh-cate__icon" style="background:linear-gradient(135deg,#f78fb3,#ff4d94)"><i class="zzh-cate__icon-i iconfont icon-heart"></i></span><p class="zzh-cate__name">女装</p></li>
+        <li class="zzh-cate"><span class="zzh-cate__icon" style="background:linear-gradient(135deg,#4facfe,#00c6fb)"><i class="iconfont icon-scan"></i></span><p class="zzh-cate__name">手机</p></li>
+        <li class="zzh-cate"><span class="zzh-cate__icon" style="background:linear-gradient(135deg,#43e97b,#38f9d7)"><i class="iconfont icon-star"></i></span><p class="zzh-cate__name">电脑</p></li>
+        <li class="zzh-cate"><span class="zzh-cate__icon" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)"><i class="iconfont icon-plus"></i></span><p class="zzh-cate__name">家电</p></li>
+        <li class="zzh-cate"><span class="zzh-cate__icon" style="background:linear-gradient(135deg,#f6d365,#fda085)"><i class="iconfont icon-order"></i></span><p class="zzh-cate__name">食品</p></li>
+        <li class="zzh-cate"><span class="zzh-cate__icon" style="background:linear-gradient(135deg,#30cfd0,#330867)"><i class="iconfont icon-more"></i></span><p class="zzh-cate__name">美妆</p></li>
+        <li class="zzh-cate"><span class="zzh-cate__icon" style="background:linear-gradient(135deg,#5ee7df,#b490ca)"><i class="iconfont icon-bell"></i></span><p class="zzh-cate__name">母婴</p></li>
+      </ul>
+    </div>
+    <div class="zzh-sec">
+      <div class="zzh-sec__head"><span class="zzh-sec__title">品牌馆</span></div>
+      <ul class="zzh-goods" style="margin:0">
+        <li class="zzh-card"><div class="zzh-card__img" style="background:linear-gradient(135deg,#36d1dc,#5b86e5);height:110px">数码旗舰</div></li>
+        <li class="zzh-card"><div class="zzh-card__img" style="background:linear-gradient(135deg,#f6d365,#fda085);height:110px">潮流服饰</div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= 购物车 ================= -->
+  <section class="zzh-page" id="page-cart">
+    <div class="zzh-subhead">购物车（2）</div>
+
+    <div class="zzh-cart-item">
+      <span class="zzh-cart-item__check zzh-cart-item__check--on"></span>
+      <div class="zzh-cart-item__img" style="background:linear-gradient(135deg,#36d1dc,#5b86e5)">手机</div>
+      <div class="zzh-flex1">
+        <p class="zzh-cart-item__name zzh-ellipsis2">ZZH 旗舰智能手机 12G+256G 星空蓝 全网通</p>
+        <p class="zzh-cart-item__sku">规格：星空蓝 · 官方标配</p>
+        <div class="zzh-cart-item__foot">
+          <span class="zzh-price" style="font-size:16px">3999</span>
+          <span class="zzh-stepper"><button type="button">-</button><span>1</span><button type="button">+</button></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="zzh-cart-item">
+      <span class="zzh-cart-item__check"></span>
+      <div class="zzh-cart-item__img" style="background:linear-gradient(135deg,#f6d365,#fda085)">女包</div>
+      <div class="zzh-flex1">
+        <p class="zzh-cart-item__name zzh-ellipsis2">头层牛皮单肩斜挎小方包 2026 秋冬新款</p>
+        <p class="zzh-cart-item__sku">规格：黑色 · 均码</p>
+        <div class="zzh-cart-item__foot">
+          <span class="zzh-price" style="font-size:16px">268</span>
+          <span class="zzh-stepper"><button type="button">-</button><span>2</span><button type="button">+</button></span>
+        </div>
+      </div>
+    </div>
+
+    <p class="zzh-copyright">— 店铺推荐 —</p>
+    <ul class="zzh-goods">
+      <li class="zzh-card">
+        <div class="zzh-card__img" style="background:linear-gradient(135deg,#43e97b,#38f9d7);height:120px">保温杯</div>
+        <div class="zzh-card__body">
+          <p class="zzh-card__name zzh-ellipsis">316 不锈钢保温杯 500ml</p>
+          <div class="zzh-card__foot"><span class="zzh-card__price zzh-price">39</span></div>
+        </div>
+      </li>
+      <li class="zzh-card">
+        <div class="zzh-card__img" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb);height:120px">跑鞋</div>
+        <div class="zzh-card__body">
+          <p class="zzh-card__name zzh-ellipsis">超轻缓震跑步鞋</p>
+          <div class="zzh-card__foot"><span class="zzh-card__price zzh-price">329</span></div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="zzh-cart-bar">
+      <span class="zzh-cart-bar__total">合计：<span class="zzh-price" style="font-size:18px">4535</span></span>
+      <button class="zzh-cart-bar__btn" type="button">去结算(1)</button>
+    </div>
+  </section>
+
+  <!-- ================= 订单 ================= -->
+  <section class="zzh-page" id="page-order">
+    <div class="zzh-subhead">我的订单</div>
+    <ul class="zzh-orders">
+      <li class="zzh-orders__tab zzh-orders__tab--on">全部</li>
+      <li class="zzh-orders__tab">待付款</li>
+      <li class="zzh-orders__tab">待收货</li>
+      <li class="zzh-orders__tab">待评价</li>
+    </ul>
+
+    <div class="zzh-order-item">
+      <div class="zzh-order-item__head"><span>订单号：2026111100001</span><span class="zzh-order-item__status">待收货</span></div>
+      <div class="zzh-order-item__goods">
+        <div class="zzh-order-item__thumb" style="background:linear-gradient(135deg,#36d1dc,#5b86e5)">手机</div>
+        <div class="zzh-flex1">
+          <p class="zzh-ellipsis2" style="font-size:13px">ZZH 旗舰智能手机 12G+256G 星空蓝</p>
+          <p style="font-size:11px;color:#999;margin-top:6px">2026-11-11 10:23</p>
+        </div>
+        <span class="zzh-price">3999</span>
+      </div>
+      <div class="zzh-order-item__foot">
+        <button class="zzh-btn" type="button">查看物流</button>
+        <button class="zzh-btn zzh-btn--primary" type="button">确认收货</button>
+      </div>
+    </div>
+
+    <div class="zzh-order-item">
+      <div class="zzh-order-item__head"><span>订单号：2026111000002</span><span class="zzh-order-item__status">已完成</span></div>
+      <div class="zzh-order-item__goods">
+        <div class="zzh-order-item__thumb" style="background:linear-gradient(135deg,#f6d365,#fda085)">女包</div>
+        <div class="zzh-flex1">
+          <p class="zzh-ellipsis2" style="font-size:13px">头层牛皮单肩斜挎小方包 黑色</p>
+          <p style="font-size:11px;color:#999;margin-top:6px">2026-11-10 18:45</p>
+        </div>
+        <span class="zzh-price">268</span>
+      </div>
+      <div class="zzh-order-item__foot">
+        <button class="zzh-btn zzh-btn--primary" type="button">评价晒单</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 我的 ================= -->
+  <section class="zzh-page" id="page-mine">
+    <div class="zzh-me-head">
+      <span class="zzh-me-head__avatar"><i class="iconfont icon-mine"></i></span>
+      <div>
+        <p class="zzh-me-head__name">张仲涵</p>
+        <p class="zzh-me-head__id">学号：2023xxxxxx · 大连东软信息学院</p>
+      </div>
+      <span class="zzh-header__scan" style="margin-left:auto"><i class="iconfont icon-more"></i></span>
+    </div>
+
+    <ul class="zzh-me-entries">
+      <li class="zzh-me-entry"><i class="iconfont icon-order"></i><p>全部订单</p></li>
+      <li class="zzh-me-entry"><i class="iconfont icon-cart"></i><p>购物车</p></li>
+      <li class="zzh-me-entry"><i class="iconfont icon-star"></i><p>收藏夹</p></li>
+      <li class="zzh-me-entry"><i class="iconfont icon-heart"></i><p>足迹</p></li>
+    </ul>
+
+    <ul class="zzh-me-list">
+      <li class="zzh-me-row"><i class="iconfont icon-location"></i>收货地址管理<span class="zzh-me-row__arrow iconfont icon-arrow-right"></span></li>
+      <li class="zzh-me-row"><i class="iconfont icon-bell"></i>消息通知<span class="zzh-me-row__arrow iconfont icon-arrow-right"></span></li>
+      <li class="zzh-me-row"><i class="iconfont icon-scan"></i>扫一扫<span class="zzh-me-row__arrow iconfont icon-arrow-right"></span></li>
+      <li class="zzh-me-row"><i class="iconfont icon-plus"></i>邀请好友<span class="zzh-me-row__arrow iconfont icon-arrow-right"></span></li>
+    </ul>
+
+    <p class="zzh-copyright">
+      ZZH优选 · 高级网页设计I 三级项目<br>
+      学号 2023xxxxxx · 姓名 张仲涵 · iconfont 字体图标方案
+    </p>
+  </section>
+
+  <!-- ================= 下导航（核心：iconfont 字体图标） ================= -->
+  <nav class="zzh-nav" id="zzhNav">
+    <a class="zzh-nav__item zzh-nav__item--active" href="javascript:;" data-page="home">
+      <i class="iconfont icon-home"></i><span>首页</span>
+    </a>
+    <a class="zzh-nav__item" href="javascript:;" data-page="category">
+      <i class="iconfont icon-category"></i><span>分类</span>
+    </a>
+    <a class="zzh-nav__item" href="javascript:;" data-page="cart">
+      <i class="iconfont icon-cart"></i><span>购物车</span>
+      <em class="zzh-nav__badge">2</em>
+    </a>
+    <a class="zzh-nav__item" href="javascript:;" data-page="order">
+      <i class="iconfont icon-order"></i><span>订单</span>
+    </a>
+    <a class="zzh-nav__item" href="javascript:;" data-page="mine">
+      <i class="iconfont icon-mine"></i><span>我的</span>
+    </a>
+  </nav>
+
+</main>
+
+<script src="js/main.js"></script>
+</body>
+</html>
