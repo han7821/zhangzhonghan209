@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     文学社社图书模块 —— 1:1 还原练习页面
+     作者：张仲涵（zhangzhonghan209）
+     说明：所有 CSS 类名、id、JS 变量均以 zzh_ 开头（姓名首字母）
+     ============================================================ -->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>文学社社 - 张仲涵 zhangzhonghan209</title>
+    <link rel="stylesheet" href="css/zzh_style.css">
+</head>
+<body>
+
+    <!-- ==================== 文学社社 模块（张仲涵） ==================== -->
+    <div class="zzh_module">
+
+        <!-- 模块标题栏 -->
+        <div class="zzh_module_title">文学社社</div>
+
+        <div class="zzh_module_body">
+
+            <!-- ============ 左侧：主编推荐（张仲涵） ============ -->
+            <div class="zzh_left">
+                <div class="zzh_left_head">主编推荐</div>
+
+                <div class="zzh_rec_book">
+                    <a href="javascript:;"><img src="images/rec.jpg" alt="虚实之间"></a>
+                </div>
+
+                <div class="zzh_rec_name">芮成钢：《虚实之间》</div>
+
+                <p class="zzh_rec_desc">
+                    有十年记者生涯对东西方文化的洞悉，又有与奥巴马等政要零距离接触...
+                </p>
+
+                <!-- 相关阅读列表 -->
+                <ul class="zzh_rec_list">
+                    <li>兄弟我在义乌的发财史</li>
+                    <li>读佛即是拜佛：唐僧传</li>
+                    <li>二战苏联陆军单兵装备</li>
+                </ul>
+            </div>
+
+            <!-- ============ 中间：选项卡 + 图书列表（张仲涵） ============ -->
+            <div class="zzh_center">
+
+                <!-- 选项卡导航 -->
+                <ul class="zzh_tab_nav" id="zzh_tab_nav">
+                    <li class="zzh_tab_item zzh_active" data-zzh-index="0">流行小说</li>
+                    <li class="zzh_tab_item" data-zzh-index="1">社科历史</li>
+                    <li class="zzh_tab_item" data-zzh-index="2">文学艺术</li>
+                </ul>
+
+                <!-- 面板一：流行小说（张仲涵） -->
+                <div class="zzh_panel zzh_show" data-zzh-panel="0">
+                    <ul class="zzh_book_grid">
+                        <li>
+                            <a href="javascript:;"><img src="images/xsb1.jpg" alt="省长的女婿"></a>
+                            <div class="zzh_book_name">省长的女婿</div>
+                            <div class="zzh_book_price">￥ 5.98</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/xsb2.jpg" alt="辛夷坞：致青春"></a>
+                            <div class="zzh_book_name">辛夷坞：致青春</div>
+                            <div class="zzh_book_price">￥ 5.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/xsb3.jpg" alt="攙位"></a>
+                            <div class="zzh_book_name">攙位</div>
+                            <div class="zzh_book_price">￥ 2.99</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/xsb4.jpg" alt="扫黑"></a>
+                            <div class="zzh_book_name">扫黑</div>
+                            <div class="zzh_book_price">￥ 6.40</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/xsb5.jpg" alt="我的帝王生涯"></a>
+                            <div class="zzh_book_name">我的帝王生涯</div>
+                            <div class="zzh_book_price">￥ 4.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/xsb6.jpg" alt="甭水北调书记"></a>
+                            <div class="zzh_book_name">甭水北调书记</div>
+                            <div class="zzh_book_price">￥ 5.98</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/xsb7.jpg" alt="1／14第一季"></a>
+                            <div class="zzh_book_name">1／14第一季</div>
+                            <div class="zzh_book_price">￥ 4.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/xsb8.jpg" alt="辛夷坞：原来"></a>
+                            <div class="zzh_book_name">辛夷坞：原来</div>
+                            <div class="zzh_book_price">￥ 4.50</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 面板二：社科历史（张仲涵） -->
+                <div class="zzh_panel" data-zzh-panel="1">
+                    <ul class="zzh_book_grid">
+                        <li>
+                            <a href="javascript:;"><img src="images/sk1.jpg" alt="奋斗的仕途"></a>
+                            <div class="zzh_book_name">奋斗的仕途</div>
+                            <div class="zzh_book_price">￥ 3.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/sk2.jpg" alt="历史选择了邓小平"></a>
+                            <div class="zzh_book_name">历史选择了邓小平</div>
+                            <div class="zzh_book_price">￥ 6.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/sk3.jpg" alt="铁穆看中国文化"></a>
+                            <div class="zzh_book_name">铁穆看中国文化</div>
+                            <div class="zzh_book_price">￥ 8.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/sk4.jpg" alt="剌杀林肯"></a>
+                            <div class="zzh_book_name">剌杀林肯</div>
+                            <div class="zzh_book_price">￥ 3.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/sk5.jpg" alt="资本论"></a>
+                            <div class="zzh_book_name">资本论</div>
+                            <div class="zzh_book_price">￥ 3.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/sk6.jpg" alt="为什么是朱元璋"></a>
+                            <div class="zzh_book_name">为什么是朱元璋</div>
+                            <div class="zzh_book_price">￥ 4.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/sk7.jpg" alt="阎崇年：大故宫"></a>
+                            <div class="zzh_book_name">阎崇年：大故宫</div>
+                            <div class="zzh_book_price">￥ 5.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/sk8.jpg" alt="皇后阁历史"></a>
+                            <div class="zzh_book_name">皇后阁历史</div>
+                            <div class="zzh_book_price">￥ 4.00</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 面板三：文学艺术（张仲涵） -->
+                <div class="zzh_panel" data-zzh-panel="2">
+                    <ul class="zzh_book_grid">
+                        <li>
+                            <a href="javascript:;"><img src="images/wx1.jpg" alt="武昌城"></a>
+                            <div class="zzh_book_name">武昌城</div>
+                            <div class="zzh_book_price">￥ 4.50</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/wx2.jpg" alt="贾平凹作品选"></a>
+                            <div class="zzh_book_name">贾平凹作品选</div>
+                            <div class="zzh_book_price">￥ 3.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/wx3.jpg" alt="最后一个匈奴"></a>
+                            <div class="zzh_book_name">最后一个匈奴</div>
+                            <div class="zzh_book_price">￥ 4.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/wx4.jpg" alt="岁月与性情"></a>
+                            <div class="zzh_book_name">岁月与性情</div>
+                            <div class="zzh_book_price">￥ 8.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/wx5.jpg" alt="浮生六记"></a>
+                            <div class="zzh_book_name">浮生六记</div>
+                            <div class="zzh_book_price">￥ 3.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/wx6.jpg" alt="周国平：宝贝"></a>
+                            <div class="zzh_book_name">周国平：宝贝</div>
+                            <div class="zzh_book_price">￥ 8.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/wx7.jpg" alt="岳飞传"></a>
+                            <div class="zzh_book_name">岳飞传</div>
+                            <div class="zzh_book_price">￥ 3.00</div>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><img src="images/wx8.jpg" alt="敦哈拉的眼泪"></a>
+                            <div class="zzh_book_name">敦哈拉的眼泪</div>
+                            <div class="zzh_book_price">￥ 5.96</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ============ 右侧：订阅榜（张仲涵） ============ -->
+            <div class="zzh_right">
+
+                <!-- 榜单一：流行小说订阅榜 -->
+                <div class="zzh_rank zzh_show" data-zzh-rank="0">
+                    <div class="zzh_rank_head">流行小说订阅榜</div>
+                    <ul class="zzh_rank_list">
+                        <li class="zzh_top"><span class="zzh_num">1</span>山西煤老板（全文）</li>
+                        <li class="zzh_top"><span class="zzh_num">2</span>你不可不知的人性（全二</li>
+                        <li class="zzh_top"><span class="zzh_num">3</span>到爱的距离</li>
+                        <li><span class="zzh_num">4</span>梅雨的季节（全文）</li>
+                        <li><span class="zzh_num">5</span>大清相国（全文）</li>
+                        <li><span class="zzh_num">6</span>情殇（全文）</li>
+                        <li><span class="zzh_num">7</span>省委班子2（全文）</li>
+                        <li><span class="zzh_num">8</span>静水流深（全文）</li>
+                        <li><span class="zzh_num">9</span>生死疲劳（全文）</li>
+                        <li><span class="zzh_num">10</span>金瓶梅（全文）</li>
+                    </ul>
+                </div>
+
+                <!-- 榜单二：社科历史订阅榜 -->
+                <div class="zzh_rank" data-zzh-rank="1">
+                    <div class="zzh_rank_head">社科历史订阅榜</div>
+                    <ul class="zzh_rank_list">
+                        <li class="zzh_top"><span class="zzh_num">1</span>博弈与社会（全文）</li>
+                        <li class="zzh_top"><span class="zzh_num">2</span>激荡三十年:中国企业</li>
+                        <li class="zzh_top"><span class="zzh_num">3</span>我承认我不曾经历桑</li>
+                        <li><span class="zzh_num">4</span>吴敬琏传（全文）</li>
+                        <li><span class="zzh_num">5</span>世界因你不同:李开复自传</li>
+                        <li><span class="zzh_num">6</span>我们台湾这些年（全文）</li>
+                        <li><span class="zzh_num">7</span>课本上不说的历史</li>
+                        <li><span class="zzh_num">8</span>重口味心理学（提升日常行</li>
+                        <li><span class="zzh_num">9</span>微表情心理学（最流亢、最</li>
+                        <li><span class="zzh_num">10</span>法冠冠军李娜自传：独自上</li>
+                    </ul>
+                </div>
+
+                <!-- 榜单三：文学艺术订阅榜 -->
+                <div class="zzh_rank" data-zzh-rank="2">
+                    <div class="zzh_rank_head">文学艺术订阅榜</div>
+                    <ul class="zzh_rank_list">
+                        <li class="zzh_top"><span class="zzh_num">1</span>2012诺贝尔文学奖得主莫言</li>
+                        <li class="zzh_top"><span class="zzh_num">2</span>变：2012诺贝尔文学奖得</li>
+                        <li class="zzh_top"><span class="zzh_num">3</span>莫离：2013诺贝尔文学奖得</li>
+                        <li><span class="zzh_num">4</span>青春（韩寒2011最新作品）</li>
+                        <li><span class="zzh_num">5</span>教你幽默到心田</li>
+                        <li><span class="zzh_num">6</span>宝贝：宝贝</li>
+                        <li><span class="zzh_num">7</span>白魔隐——白粉仔的十二年</li>
+                        <li><span class="zzh_num">8</span>中国式关系（全文）</li>
+                        <li><span class="zzh_num">9</span>于丹：重温最美古诗词（17</li>
+                        <li><span class="zzh_num">10</span>妞妞：一个父亲的札记</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 引入 JS：选项卡切换逻辑（张仲涵） -->
+    <script src="js/zzh_main.js"></script>
+</body>
+</html>

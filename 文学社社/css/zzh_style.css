@@ -1,0 +1,250 @@
+/* ============================================================
+   文学社社图书模块样式表 —— 1:1 还原练习
+   作者：张仲涵（zhangzhonghan209）
+   说明：所有 CSS 类名均以 zzh_ 开头（姓名首字母）
+   ============================================================ */
+
+/* ---------- 全局基础样式（张仲涵） ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font: 12px/1.5 Arial, "Microsoft YaHei", sans-serif;
+    color: #333;
+    background: #fff;
+}
+
+ul, li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+img {
+    border: 0;
+    vertical-align: top;
+}
+
+/* ---------- 模块整体容器（张仲涵） ---------- */
+.zzh_module {
+    width: 990px;
+    margin: 20px auto;
+    border: 1px solid #e6e6e6;
+    background: #fff;
+}
+
+/* 模块标题栏：标题文字 + 底部绿色分隔线 */
+.zzh_module_title {
+    height: 38px;
+    line-height: 38px;
+    padding-left: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px solid #78a900;
+}
+
+.zzh_module_body {
+    display: flex;
+    align-items: stretch;
+}
+
+/* ---------- 左侧：主编推荐（张仲涵） ---------- */
+.zzh_left {
+    width: 195px;
+    padding: 0 15px;
+    border-right: 1px solid #e6e6e6;
+}
+
+.zzh_left_head {
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.zzh_rec_book {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.zzh_rec_book img {
+    width: 150px;
+}
+
+.zzh_rec_name {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.zzh_rec_desc {
+    margin-top: 12px;
+    color: #999;
+    line-height: 22px;
+}
+
+.zzh_rec_list {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #e6e6e6;
+}
+
+.zzh_rec_list li {
+    height: 24px;
+    line-height: 24px;
+    color: #666;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.zzh_rec_list li::before {
+    content: "";
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    margin-right: 8px;
+    vertical-align: middle;
+    background: #ccc;
+    border-radius: 50%;
+}
+
+/* ---------- 中间：选项卡 + 图书网格（张仲涵） ---------- */
+.zzh_center {
+    flex: 1;
+    padding: 0 20px;
+}
+
+/* 选项卡导航 */
+.zzh_tab_nav {
+    height: 45px;
+    line-height: 45px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.zzh_tab_item {
+    display: inline-block;
+    padding: 0 22px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+/* 选中状态的选项卡：绿色文字 + 绿色下划线 */
+.zzh_tab_item.zzh_active {
+    color: #78a900;
+    font-weight: bold;
+    border-bottom: 2px solid #78a900;
+}
+
+/* 图书面板：默认隐藏，zzh_show 时显示 */
+.zzh_panel {
+    display: none;
+}
+
+.zzh_panel.zzh_show {
+    display: block;
+}
+
+/* 图书网格：一行 4 本，共两行 */
+.zzh_book_grid {
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.zzh_book_grid li {
+    float: left;
+    width: 25%;
+    padding: 0 10px 25px;
+    text-align: center;
+}
+
+.zzh_book_grid li img {
+    width: 90px;
+    height: 135px;
+    object-fit: cover;
+}
+
+.zzh_book_name {
+    margin-top: 10px;
+    height: 18px;
+    line-height: 18px;
+    color: #333;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.zzh_book_price {
+    margin-top: 4px;
+    color: #e4393c;
+    font-weight: bold;
+}
+
+/* ---------- 右侧：订阅榜（张仲涵） ---------- */
+.zzh_right {
+    width: 205px;
+    padding: 0 15px;
+    border-left: 1px solid #e6e6e6;
+}
+
+.zzh_rank {
+    display: none;
+}
+
+.zzh_rank.zzh_show {
+    display: block;
+}
+
+.zzh_rank_head {
+    height: 45px;
+    line-height: 45px;
+    font-size: 14px;
+    font-weight: bold;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.zzh_rank_list {
+    margin-top: 5px;
+}
+
+.zzh_rank_list li {
+    height: 29px;
+    line-height: 29px;
+    color: #666;
+    border-bottom: 1px dotted #e0e0e0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* 榜单序号：默认灰色数字 */
+.zzh_num {
+    display: inline-block;
+    width: 14px;
+    margin-right: 6px;
+    color: #999;
+    text-align: center;
+}
+
+/* 前三名：红色边框方块 + 红色数字 */
+.zzh_rank_list li.zzh_top .zzh_num {
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    margin-top: -2px;
+    color: #e4393c;
+    border: 1px solid #e4393c;
+    font-weight: bold;
+}
