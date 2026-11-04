@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻选项卡 - 张仲涵 zhangzhonghan209</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            padding-top: 60px;
+        }
+
+        .tab-box {
+            width: 600px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* 选项卡导航 */
+        .tab-nav {
+            display: flex;
+            list-style: none;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .tab-nav li {
+            flex: 1;
+            padding: 14px 0;
+            text-align: center;
+            font-size: 16px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .tab-nav li:hover {
+            color: #e1251b;
+            background: #fff5f5;
+        }
+
+        /* 选中状态 */
+        .tab-nav li.active {
+            color: #e1251b;
+            font-weight: bold;
+            border-bottom: 2px solid #e1251b;
+            background: #fff;
+        }
+
+        /* 内容区 */
+        .tab-pane {
+            display: none;
+            padding: 20px 24px;
+            line-height: 2;
+            color: #333;
+            font-size: 15px;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .tab-pane li {
+            list-style: none;
+            padding: 6px 0;
+            border-bottom: 1px dashed #eee;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 选项卡容器 -->
+    <div class="tab-box" id="newsTab">
+        <!-- 导航：国内新闻为默认选中 -->
+        <ul class="tab-nav">
+            <li class="active">国内新闻</li>
+            <li>省内新闻</li>
+            <li>国际新闻</li>
+            <li>最热新闻</li>
+        </ul>
+        <!-- 内容面板：与导航一一对应 -->
+        <div class="tab-content">
+            <div class="tab-pane active">
+                <ul>
+                    <li>1. 全国多地出台新一轮促消费政策，释放内需潜力</li>
+                    <li>2. 国产大飞机新增多条国内航线，上座率持续攀升</li>
+                    <li>3. 全国秋粮收获接近尾声，全年粮食再获丰收</li>
+                </ul>
+            </div>
+            <div class="tab-pane">
+                <ul>
+                    <li>1. 本省新增两条高铁线路，省内出行更加便捷</li>
+                    <li>2. 省级科技专项奖励名单公布，多家企业入选</li>
+                    <li>3. 全省义务教育课后服务实现全覆盖</li>
+                </ul>
+            </div>
+            <div class="tab-pane">
+                <ul>
+                    <li>1. 多国领导人将出席 upcoming 国际气候峰会</li>
+                    <li>2. 全球人工智能安全合作框架草案发布</li>
+                    <li>3. 国际油价本周小幅回落，市场预期趋于平稳</li>
+                </ul>
+            </div>
+            <div class="tab-pane">
+                <ul>
+                    <li>1. 全网热搜第一：双十一预售开启，成交额再创新高</li>
+                    <li>2. 国产科幻新片票房突破 30 亿，口碑持续走高</li>
+                    <li>3. 某博主直播助农单场销售破千万，网友点赞</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 外部引入 js 文件 -->
+    <script src="js/tab.js"></script>
+</body>
+</html>
