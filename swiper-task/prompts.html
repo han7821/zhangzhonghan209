@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 协作记录与提示词答辩文档 · 大国重器光影展</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background:#f6f8fc;color:#1f2937;line-height:1.9}
+  .wrap{max-width:920px;margin:0 auto;padding:40px 20px 70px}
+  .head{background:linear-gradient(135deg,#0f2b5b,#1d5bbf);border-radius:20px;padding:34px 38px;color:#fff;margin-bottom:16px;box-shadow:0 12px 30px rgba(15,43,91,.3)}
+  .head .badge{display:inline-block;padding:5px 14px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);font-size:13px;letter-spacing:2px;margin-bottom:12px}
+  .head h1{font-size:26px;letter-spacing:1px;line-height:1.5}
+  .head h1 b{color:#ffd166}
+  .head p{margin-top:10px;font-size:14px;color:#d9e3f5}
+  .head a{color:#ffd166}
+
+  .card{background:#fff;border-radius:18px;padding:26px 30px;margin-bottom:24px;border:1px solid #e8ecf5;box-shadow:0 4px 14px rgba(31,41,55,.06);position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(#0f2b5b,#1d5bbf)}
+  .card h2{font-size:20px;color:#0f2b5b;margin-bottom:6px}
+  .card h2 small{display:block;font-weight:normal;color:#9ca3af;font-size:13px;margin-top:3px}
+  .card h3{font-size:15.5px;color:#1d5bbf;margin:18px 0 8px}
+  .card p{font-size:14px;color:#374151;margin:8px 0}
+  .card p b{color:#0f2b5b}
+  .card code{background:#eef2ff;color:#1d4ed8;padding:1px 7px;border-radius:5px;font-family:Consolas,monospace;font-size:13px}
+  .card ul,.card ol{margin:8px 0 8px 24px;font-size:14px;color:#374151}
+  .card li{margin:6px 0}
+
+  .quote{background:#f8faff;border:1.5px dashed #93a7cf;border-radius:12px;padding:14px 18px;margin:10px 0;font-size:13.5px;color:#1e3a8a}
+  .quote::before{content:"💬 提示词";display:block;font-size:12px;font-weight:bold;color:#1d5bbf;margin-bottom:6px;letter-spacing:1px}
+  .quote.ai{background:#f0fdf4;border-color:#86efac}
+  .quote.ai::before{content:"🤖 AI 回答（要点）";color:#15803d}
+
+  .codebox{background:#0d1117;border:1px solid #30363d;border-radius:12px;padding:16px 18px;margin:12px 0;overflow-x:auto}
+  .codebox pre{font-family:Consolas,"Courier New",monospace;font-size:13px;color:#e6edf3;line-height:1.85;white-space:pre}
+  .codebox .cm{color:#8b949e}
+  .codebox .kw{color:#ff7b72}
+  .codebox .str{color:#a5d6ff}
+
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px}
+  th{background:#0f2b5b;color:#fff;padding:10px 12px;text-align:left;font-weight:normal;letter-spacing:1px}
+  td{padding:9px 12px;border-bottom:1px solid #eef1f7;color:#374151;vertical-align:top}
+  td:first-child{font-family:Consolas,monospace;color:#b45309;font-weight:bold;white-space:nowrap}
+  tr:nth-child(even) td{background:#fafbfe}
+
+  .warn{background:#fffbeb;border:1.5px solid #fcd34d;border-left:5px solid #f59e0b;border-radius:12px;padding:14px 18px;margin:12px 0;font-size:13.5px;color:#78350f}
+  .warn b{color:#b45309}
+  .ok{color:#15803d;font-weight:bold}
+
+  .shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:14px 0}
+  .shots figure{background:#f8faff;border:1px solid #dbe6f8;border-radius:12px;overflow:hidden}
+  .shots img{width:100%;display:block}
+  .shots figcaption{font-size:12.5px;color:#4b5563;padding:8px 12px;line-height:1.7}
+
+  .check{background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:14px 18px;margin:12px 0;font-size:13.5px;color:#14532d}
+  .check b{color:#15803d}
+
+  .qa{background:#f8faff;border-radius:12px;padding:12px 16px;margin:10px 0;border:1px solid #dbe6f8}
+  .qa .q{font-weight:bold;color:#0f2b5b;font-size:13.5px}
+  .qa .a{font-size:13.5px;color:#374151;margin-top:4px}
+
+  footer{text-align:center;margin-top:30px;color:#9ca3af;font-size:13px;line-height:2}
+  .backlink{text-align:center;margin-top:24px}
+  .backlink a{display:inline-block;text-decoration:none;color:#0f2b5b;font-size:14.5px;font-weight:bold;background:#fff;border:1px solid #dbe4ff;border-radius:999px;padding:10px 26px;transition:transform .2s,box-shadow .2s}
+  .backlink a:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,43,91,.15)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <span class="badge">高 级 网 页 设 计 · 组 件 库 专 题 · 提 示 词 访 问 入 口</span>
+    <h1>AI 协作记录与<b>提示词答辩文档</b></h1>
+    <p>课程：高级网页设计 · 组件库专题 · 大国重器光影展（2026-2027-1）<br>
+    作业页面：<a href="index.html">index.html</a>（演示一至演示五全部可运行）｜ AI 协作工具：WorkBuddy（全程开放 AI，按课程规则保留提示词记录）</p>
+  </div>
+
+  <!-- 任务一 -->
+  <div class="card">
+    <h2>任务一 · 提示词工程师 ⭐⭐<small>不写代码，写提示词：让 AI 生成四项需求的 Swiper 配置</small></h2>
+    <p><b>需求拆解</b>：① 无缝循环 ② 3.2 秒自动翻页且手动操作后不停止 ③ 圆点分页器可点击 ④ 初始效果为 cube</p>
+
+    <h3>第 1 轮提示词（故意先写得像平时说话一样）</h3>
+    <div class="quote">帮我写一个 Swiper 的 new Swiper('#wySw4', {...}) 配置，要求：能循环播放，3.2 秒自动翻页，下面有圆点可以点，效果是立方体。</div>
+
+    <h3>第 1 轮 AI 回答（要点摘录）</h3>
+    <div class="codebox"><pre><span class="kw">new</span> Swiper(<span class="str">'#wySw4'</span>, {
+  loop: <span class="kw">true</span>,
+  autoplay: { delay: <span class="str">3200</span> },          <span class="cm">// ← 问题所在</span>
+  pagination: { el: <span class="str">'#wyPag4'</span> },      <span class="cm">// ← 问题所在</span>
+  effect: <span class="str">'cube'</span>,
+  cubeEffect: { slideShadows: <span class="kw">true</span>, shadow: <span class="kw">false</span> }
+});</pre></div>
+
+    <h3>第 1 轮自查发现的问题（贴进页面实测后）</h3>
+    <table>
+      <tr><th>问题</th><th>后果</th><th>错在哪</th></tr>
+      <tr><td>autoplay 少写 disableOnInteraction: false</td><td>手动拖一下，自动播放就永久停止，违反需求②</td><td>Swiper 默认用户交互后停止 autoplay，必须显式写 false</td></tr>
+      <tr><td>pagination 少写 clickable: true</td><td>圆点显示出来了但点了没反应，违反需求③</td><td>圆点默认只是指示器，不可点击</td></tr>
+      <tr><td>cubeEffect.shadow: false</td><td>立方体没有底部投影，视觉效果反而变差</td><td>我没要求关阴影，AI 自己"好心"加的</td></tr>
+      <tr><td>没写 speed</td><td>切换速度是默认值，动画偏快</td><td>需求没提，但顺手补上更完整</td></tr>
+    </table>
+
+    <h3>第 2 轮提示词（改用"参数名 + 期望行为"的精确句式）</h3>
+    <div class="quote">重新给我一份 Swiper 配置，逐条对照，一条都不能少：<br>
+    ① loop: true，翻到最后一张后继续向后翻要回到第一张；<br>
+    ② autoplay 的 delay 是 3200 毫秒，并且加 disableOnInteraction: false——用户手动拖动后自动播放要继续，不能停；<br>
+    ③ pagination 用 #wyPagT1，且 clickable: true，圆点点击后直接跳到对应 slide；<br>
+    ④ effect 是 'cube'，保留默认投影，不要关闭 shadow；<br>
+    写完之后你自己逐条检查一遍，告诉我每一行对应我哪条需求。</div>
+
+    <h3>第 2 轮 AI 回答（最终采用）</h3>
+    <div class="codebox"><pre><span class="kw">var</span> swiperT1 = <span class="kw">new</span> Swiper(<span class="str">'#wySwT1'</span>, {
+  loop: <span class="kw">true</span>,                                <span class="cm">// 需求①</span>
+  autoplay: {
+    delay: <span class="str">3200</span>,                             <span class="cm">// 需求②</span>
+    disableOnInteraction: <span class="kw">false</span>              <span class="cm">// 需求②</span>
+  },
+  pagination: { el: <span class="str">'#wyPagT1'</span>, clickable: <span class="kw">true</span> },  <span class="cm">// 需求③</span>
+  effect: <span class="str">'cube'</span>,                            <span class="cm">// 需求④</span>
+  speed: <span class="str">800</span>,
+  cubeEffect: { slideShadows: <span class="kw">true</span> }         <span class="cm">// 保留默认投影</span>
+});</pre></div>
+    <p>AI 逐条自检表与四条需求一一对应，无遗漏。（页面里我把 <code>slideShadows</code> 关成了 <code>false</code>，是因为 cube 与缩略阴影在本页深色底图下观感更好——这是我自己的实测调整，不是 AI 的原样输出。）</p>
+
+    <h3>验证结论（截图 + 一句话）</h3>
+    <table>
+      <tr><th>需求</th><th>验证方法</th><th>结论</th></tr>
+      <tr><td>① loop</td><td>翻到第六张继续向后</td><td class="ok">✔ 无缝回到第一张</td></tr>
+      <tr><td>② autoplay 3200</td><td>静置计时 + 手动拖后松手</td><td class="ok">✔ 3.2 秒翻页，拖动后继续</td></tr>
+      <tr><td>③ pagination</td><td>逐个点击圆点</td><td class="ok">✔ 点击即跳转</td></tr>
+      <tr><td>④ effect cube</td><td>刷新观察初始切换</td><td class="ok">✔ 初始即为立方体</td></tr>
+    </table>
+    <div class="shots">
+      <figure><img src="shots/t1-loop.png" alt="验证① 无缝循环"><figcaption>验证① loop：第六张之后无缝回到第一张</figcaption></figure>
+      <figure><img src="shots/t1-autoplay.png" alt="验证② 自动播放"><figcaption>验证② autoplay 3200 + disableOnInteraction:false</figcaption></figure>
+      <figure><img src="shots/t1-pagination.png" alt="验证③ 圆点可点"><figcaption>验证③ pagination clickable：点击即跳转</figcaption></figure>
+      <figure><img src="shots/t1-cube.png" alt="验证④ cube 初始效果"><figcaption>验证④ 初始加载即为 3D 立方体</figcaption></figure>
+    </div>
+
+    <h3>答辩抽问预答</h3>
+    <div class="qa"><div class="q">你的第一版提示词漏掉了哪个需求？</div><div class="a">严格说四条都提了，但②③只说了现象没说参数，AI 就用了默认行为：漏了 <code>disableOnInteraction: false</code> 和 <code>clickable: true</code>。</div></div>
+    <div class="qa"><div class="q">你是怎么在第二轮里"说清楚"的？</div><div class="a">不再说"能自动翻页"，而是直接点名参数和值，并补上"用户手动拖动后要继续"这种行为描述，让 AI 无法用默认值蒙混。</div></div>
+    <div class="qa"><div class="q">AI 第一次给的代码错在哪？</div><div class="a">两处默认值陷阱（autoplay 停止、圆点不可点）+ 一处自作主张（关掉 cube 阴影）。</div></div>
+  </div>
+
+  <!-- 任务二 -->
+  <div class="card">
+    <h2>任务二 · creative 仿写「电影墙」⭐⭐⭐<small>课堂没讲，AI 教你：读懂官方示例 257-effect-creative.html</small></h2>
+    <p><b>目标</b>：为演示四新增第 7 个按钮「creative 电影墙」——上一张缩小左移并带角度，下一张放大右移进场。</p>
+
+    <h3>提示词 1（读懂官方示例）</h3>
+    <div class="quote">我在看 Swiper 官方示例 demo/257-effect-creative.html，看不懂 creativeEffect 里 prev/next 的 transform 写法。请解释：translate 的三个值分别是什么？百分号是相对谁的？rotate 的三个值是绕哪根轴？</div>
+
+    <h3>AI 回答要点（我用自己的话整理）</h3>
+    <ol>
+      <li><code>creativeEffect</code> 的 <code>prev</code> 描述"**上一张（已翻过去的）**"停留在画面里的样子，<code>next</code> 描述"**下一张（还没进来的）**"预备的样子，当前张永远保持原样。</li>
+      <li><code>translate: [x, y, z]</code> 三个值分别是水平位移、垂直位移、纵深（z 轴，负值 = 远离观察者）。<b>百分号相对 slide 自身的宽/高</b>，比如 <code>-32%</code> 就是向左移动自身宽度的 32%；第三个 z 值通常用 px。</li>
+      <li><code>rotate: [x, y, z]</code> 分别绕 X 轴（俯仰）、Y 轴（偏转）、Z 轴（平面内旋转）的角度，单位度。</li>
+      <li><code>scale</code> 缩放，<code>opacity</code> 透明度，<code>limitProgress</code> 限制参与变换的相邻 slide 数量。</li>
+    </ol>
+
+    <h3>提示词 2（生成"电影墙"参数）</h3>
+    <div class="quote">按"电影选片墙"的感觉给我一组 creativeEffect：上一张向左移出、缩小、逆时针歪一点、半透明；下一张从右侧放大进场。给我完整可粘贴的 JS，并注明每个值控制什么。</div>
+
+    <h3>AI 回答（最终采用，已粘入页面并微调）</h3>
+    <div class="codebox"><pre>creativeEffect: {
+  limitProgress: <span class="str">2</span>,
+  shadowPerProgress: <span class="kw">true</span>,
+  prev: {
+    translate: [<span class="str">'-32%'</span>, <span class="str">'0%'</span>, <span class="str">-160</span>],  <span class="cm">// 左移自身宽度 32%，纵深后退 160px</span>
+    rotate: [<span class="str">0</span>, <span class="str">0</span>, <span class="str">-8</span>],               <span class="cm">// 绕 Z 轴逆时针歪 8 度</span>
+    scale: <span class="str">0.72</span>,                      <span class="cm">// 缩小到 72%</span>
+    opacity: <span class="str">0.55</span>                     <span class="cm">// 变半透明</span>
+  },
+  next: {
+    translate: [<span class="str">'106%'</span>, <span class="str">'0%'</span>, <span class="str">0</span>],     <span class="cm">// 从右侧自身宽度 106% 处起步</span>
+    scale: <span class="str">1.18</span>,                      <span class="cm">// 放大 118%，产生"迎面而来"感</span>
+    opacity: <span class="str">1</span>
+  }
+}</pre></div>
+    <div class="warn"><b>踩坑记录</b>：第一次把 creative 配置直接写进了所有按钮共用的 <code>wyFxBase</code>，结果切回 slide 效果时卡片还在歪着——AI 提醒切换效果需要销毁重建实例，且非 creative 时必须 <code>delete</code> 掉 <code>creativeEffect</code>，改成"点 creative 才挂载"后正常。</div>
+
+    <h3>必答问题（用自己的话）</h3>
+    <div class="qa"><div class="q">prev / next 的 transform 各控制什么？</div><div class="a"><code>prev</code> 控制"刚翻过去的上一张"如何<b>退场</b>——它停在画面里的位置、大小、角度、透明度；<code>next</code> 控制"即将进来的下一张"如何<b>候场</b>——从哪里出发、以什么姿态滑到正中。翻页动画就是上一张按 prev 的描述退场、下一张按 next 的描述进场，两个过程同时进行。</div></div>
+
+    <h3>答辩抽问预答</h3>
+    <div class="qa"><div class="q">transform 里的百分号是相对谁的？</div><div class="a">相对 <b>slide 自身的宽度和高度</b>（x 用自身宽，y 用自身高），z 轴用 px。不是相对相框也不是相对 wrapper。</div></div>
+    <div class="qa"><div class="q">改一个数值让卡片转 20 度试试？</div><div class="a">把 <code>prev.rotate</code> 的第三个值从 <code>-8</code> 改成 <code>-20</code>（或 next 改 <code>20</code>），卡片平面旋转角立刻变为 20 度，已现场验证。</div></div>
+    <div class="shots">
+      <figure><img src="shots/t2-creative.png" alt="creative 电影墙效果"><figcaption>任务二：creative 电影墙最终效果</figcaption></figure>
+      <figure><img src="shots/t2-creative-20deg.png" alt="改成 20 度验证"><figcaption>答辩演练：rotate 改为 20 度的现场验证</figcaption></figure>
+    </div>
+  </div>
+
+  <!-- 任务三 -->
+  <div class="card">
+    <h2>任务三 · 综合创作 + 超纲能力 ⭐⭐⭐<small>第六件展品爱达·魔都号 + keyboard 键盘控制</small></h2>
+
+    <h3>① 第六件展品「爱达·魔都号」</h3>
+    <p>图片用 AI 生成（横版 16:9），文件：<code>swiper-imgs/aida_1.png</code>。图片生成提示词：</p>
+    <div class="quote">写实摄影风格：中国首艘国产大型邮轮「爱达·魔都号」在黄昏时分航行于东海海面，16:9 横版构图。白色与深蓝色流线型船体，多层甲板、密集舷窗、船首彩绘中国风波浪纹样，船尾烟囱有红色装饰。海面泛着金色夕照波纹，天空为橙紫渐变晚霞。镜头为略低于船体的仰视视角，体现巨轮体量感，电影级光影。画面中不要出现任何文字、字母、水印和 logo。</div>
+    <p>slide 结构完整（img + 标题 + 标语），已加入<b>全部五个演示</b>。事实核对：爱达·魔都号，中国首艘国产大型邮轮，2024 年 1 月 1 日商业首航，总吨位约 13.55 万总吨，以上海为母港。</p>
+
+    <h3>② 超纲能力：keyboard 键盘控制（关键对话往返）</h3>
+    <div class="quote">课堂没讲 keyboard，帮我在演示二上加键盘翻页。注意别影响页面其他地方的方向键使用。</div>
+    <div class="quote ai">直接给了一行 <code>keyboard: true</code>。</div>
+    <p><b>我的验证发现</b>：<code>keyboard: true</code> 时，只要轮播被初始化，整个页面按方向键都会被它抢走——页面一长，用户想用方向键滚动网页会被劫持。</p>
+    <div class="quote ai">修正后改成对象写法并开启视口限制：<br><code>keyboard: { enabled: true, onlyInViewport: true }</code><br>onlyInViewport: true 表示只有当这个轮播滚进可视区域时才响应方向键，不劫持整页。</div>
+
+    <h3>新参数的作用（答辩预答）</h3>
+    <ul>
+      <li><code>keyboard.enabled</code>：开启键盘控制，<code>←</code> 上一张、<code>→</code> 下一张；</li>
+      <li><code>keyboard.onlyInViewport</code>：仅当 Swiper 在视口内才监听按键，避免多个组件/页面滚动互相干扰——这是我验证后要求 AI 修正的关键点。</li>
+    </ul>
+    <div class="qa"><div class="q">现场把 delay 改成指定值，预期变化？</div><div class="a">把演示三 autoplay 的 <code>delay: 2600</code> 改成 <code>delay: 1000</code>，刷新后每张停留时间从 2.6 秒变为 1 秒，翻页节奏明显加快；因为 <code>disableOnInteraction: false</code>，手动拖动后依然每 1 秒续播。改的是"每张停留时长"，不影响切换动画时长 <code>speed</code>（那是 700ms，控制的是翻页动作本身多快完成）。</div></div>
+    <div class="shots">
+      <figure><img src="shots/t3-aida.png" alt="第六件展品爱达·魔都号"><figcaption>任务三①：第六件展品爱达·魔都号（AI 生成 16:9 展品图）</figcaption></figure>
+      <figure><img src="shots/t3-keyboard.png" alt="keyboard 键盘控制验证"><figcaption>任务三②：演示二 keyboard 键盘控制（onlyInViewport）</figcaption></figure>
+    </div>
+  </div>
+
+  <!-- 提交清单 -->
+  <div class="card">
+    <h2>提交清单自查<small>对照作业要求逐项过检</small></h2>
+    <div class="check">
+      <b>✔ 任务一</b>：≥2 轮提示词记录 + AI 回答 + 四项需求逐项验证（页面演示五 + 上方验证截图）<br>
+      <b>✔ 任务二</b>：演示四新增第 7 个按钮「creative 电影墙」+ prev/next 含义用自己的话写明<br>
+      <b>✔ 任务三①</b>：第六件展品爱达·魔都号（AI 生成图，slide 结构完整，加入全部演示）<br>
+      <b>✔ 任务三②</b>：超纲能力 keyboard 键盘控制（含第 1 版问题的发现与修正过程）<br>
+      <b>✔ 全程</b>：保留提示词记录，能讲清每段代码，可现场改参数；本页面即为与 AI 的关键对话记录（提示词 + 重要往返 + 自查踩坑）
+    </div>
+  </div>
+
+  <div class="backlink"><a href="index.html">← 返回作业页面（大国重器光影展）</a></div>
+  <footer>AI 协作记录与提示词答辩文档 · 大国重器光影展 · 高级网页设计 2026-2027-1</footer>
+</div>
+</body>
+</html>
