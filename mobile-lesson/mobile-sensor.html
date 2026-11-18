@@ -10,8 +10,9 @@
   说明：任务四 摇一摇彩蛋。
         监听 devicemotion，用 accelerationIncludingGravity 计算合成加速度，
         超过阈值 18 判定为摇动；触发后进入 1.5 秒冷却，防止一次摇动重复触发。
-        另加倾斜触发：监听 deviceorientation 的 beta / gamma，
-        倾斜角度超过 45° 也能抽一次（回正到 15° 以内才重新上膛）。
+        另加倾斜视差：监听 deviceorientation 的 beta / gamma，
+        手机左右前后倾斜时，背景光晕、图标、结果卡片按不同幅度反向位移，
+        形成前后层次（光晕动得最多、卡片动得最少）。
   为什么必须做降级：
         传感器事件不是所有设备 / 浏览器都有（电脑浏览器几乎没有，部分安卓机也会屏蔽），
         没有数据时如果不降级，页面会一直显示"等待摇动"，用户会以为坏了。
@@ -30,10 +31,23 @@
   h1 { margin: 0 0 8px; font-size: 22px; letter-spacing: 3px; }
   .wy_sub { margin: 0 0 30px; font-size: 12px; color: #8f86a6; line-height: 1.8; }
 
+  /* 视差：外层负责跟随倾斜位移，内层保留摇动动画 */
   .wy_phone {
-    font-size: 76px; line-height: 1; margin-bottom: 22px;
+    margin-bottom: 22px;
+    transition: transform .18s cubic-bezier(.22,.8,.28,1);
+    will-change: transform;
+  }
+  .wy_phone span {
+    display: inline-block; font-size: 76px; line-height: 1;
     animation: wy_shake 2.2s ease-in-out infinite;
     transform-origin: 50% 80%;
+  }
+  /* 背景光晕：位移幅度更大，形成前后层次 */
+  .wy_glow {
+    position: fixed; inset: -25%; z-index: -1; pointer-events: none;
+    background: radial-gradient(420px 420px at 50% 42%, rgba(183,139,255,.22), transparent 70%);
+    transition: transform .22s cubic-bezier(.22,.8,.28,1);
+    will-change: transform;
   }
   @keyframes wy_shake {
     0%, 62%, 100% { transform: rotate(0deg); }
@@ -51,6 +65,8 @@
     background: rgba(255,255,255,.045);
     border: 1px dashed rgba(255,255,255,.16);
     font-size: 14px; color: #a99fc0; line-height: 1.7;
+    transition: transform .18s cubic-bezier(.22,.8,.28,1);
+    will-change: transform;
   }
   .wy_result.wy_hit {
     border: 1px solid rgba(183,139,255,.55);
@@ -90,10 +106,13 @@
 </head>
 <body>
 
-<h1>摇一摇 · 今日菜谱</h1>
-<p class="wy_sub">摇一摇或倾斜手机，抽一道今天该吃的中餐<br>（没有传感器也能点按钮抽一次）</p>
+<!-- 视差背景层：跟倾斜方向反向移动，制造纵深 -->
+<div class="wy_glow" id="wyGlow"></div>
 
-<div class="wy_phone">📱</div>
+<h1>摇一摇 · 今日菜谱</h1>
+<p class="wy_sub">摇一摇抽一道今天该吃的中餐 · 倾斜手机看视差<br>（没有传感器也能点按钮抽一次）</p>
+
+<div class="wy_phone" id="wyPhone"><span>📱</span></div>
 
 <div class="wy_result" id="wyResult">
   <span>等待摇动……</span>
@@ -125,21 +144,21 @@ var wy_status  = document.getElementById('wyStatus');
 var wy_manual  = document.getElementById('wyManual');
 var wy_permit  = document.getElementById('wyPermit');
 var wy_count   = document.getElementById('wyCount');
+var wy_phone   = document.getElementById('wyPhone');
+var wy_glow    = document.getElementById('wyGlow');
 
 /* ================= 状态 ================= */
 var WY_THRESHOLD = 18;     // 合成加速度阈值（含重力，静止时约 9.8）
-var WY_TILT      = 45;     // 倾斜角度阈值（度）：beta 或 gamma 超过它就触发
+var WY_TILT      = 45;     // 倾斜 45° 视为满量程，对应视差的最大位移
 var WY_COOLDOWN  = 1500;   // 1.5 秒冷却，防止一次摇动触发十几次
 
 var wy_lastHit    = 0;     // 上次触发时间
 var wy_hasData    = false; // 是否真的收到过传感器数据
 var wy_permitted  = false; // iOS 是否已授权
 
-// 摇动 / 倾斜各自的"上膛"标记：
-// 触发一次后先下膛，等回到静止（或回正）才重新上膛，
-// 否则用户一直摇 / 一直歪着，冷却一过就会每 1.5 秒抽一次。
+// 摇动的"上膛"标记：触发一次后先下膛，等回到静止才重新上膛，
+// 否则用户一直摇，冷却一过就会每 1.5 秒抽一次。
 var wy_shakeArmed = true;
-var wy_tiltArmed  = true;
 
 var wy_magText = '—', wy_tiltText = '—';
 
@@ -181,7 +200,7 @@ function wy_onMotion(e) {
 
   wy_magText = wy_mag.toFixed(1);
   wy_hud();
-  wy_status.textContent = '传感器已就绪 · 摇动阈值 ' + WY_THRESHOLD + ' · 倾斜阈值 ' + WY_TILT + '° · 冷却 1.5s';
+  wy_status.textContent = '传感器已就绪 · 摇动阈值 ' + WY_THRESHOLD + ' · 倾斜视差 ±' + WY_TILT + '° · 冷却 1.5s';
   wy_status.className = 'wy_status';
 
   // 超过阈值 → 判定为摇动（摇一次只抽一次，静止后才重新上膛）
@@ -195,8 +214,8 @@ function wy_onMotion(e) {
   }
 }
 
-/* ================= 倾斜检测 ================= */
-// beta  ：绕 X 轴（前后点头），范围 -180~180
+/* ================= 倾斜视差 ================= */
+// beta  ：绕 X 轴（前后点头），竖屏握持时约 60~90
 // gamma ：绕 Y 轴（左右侧倾），范围 -90~90
 function wy_onOrient(e) {
   if (e.beta === null && e.gamma === null) return;   // 设备没有陀螺仪
@@ -204,19 +223,18 @@ function wy_onOrient(e) {
   wy_hasData = true;
 
   var b = e.beta || 0, g = e.gamma || 0;
-  var wy_tilt = Math.max(Math.abs(b), Math.abs(g));   // 取前后 / 左右里更大的那个倾角
 
-  wy_tiltText = wy_tilt.toFixed(0) + '°';
+  // 归一化到 -1 ~ 1：g 直接除以满量程；b 竖屏时基准约 60°，先减基准再除
+  var nx = Math.max(-1, Math.min(1, g / WY_TILT));
+  var ny = Math.max(-1, Math.min(1, (b - 60) / WY_TILT));
+
+  wy_tiltText = Math.max(Math.abs(b), Math.abs(g)).toFixed(0) + '°';
   wy_hud();
 
-  if (wy_tilt > WY_TILT) {
-    if (wy_tiltArmed) {
-      wy_tiltArmed = false;
-      wy_draw('倾斜手机抽到的');
-    }
-  } else if (wy_tilt < 15) {
-    wy_tiltArmed = true;   // 回正后才允许下一次倾斜触发
-  }
+  // 不同图层按不同幅度、相反方向位移 → 产生前后层次（视差）
+  wy_glow.style.transform   = 'translate3d(' + (nx * 34).toFixed(1) + 'px,' + (ny * 34).toFixed(1) + 'px,0)';
+  wy_phone.style.transform  = 'translate3d(' + (nx * -18).toFixed(1) + 'px,' + (ny * -18).toFixed(1) + 'px,0)';
+  wy_result.style.transform = 'translate3d(' + (nx * -8).toFixed(1) + 'px,' + (ny * -8).toFixed(1) + 'px,0)';
 }
 
 /* ================= iOS 13+ 权限 ================= */
