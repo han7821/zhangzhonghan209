@@ -220,6 +220,45 @@
     </div>
   </div>
 
+  <!-- 阶段四：发布与运维 -->
+  <div class="card">
+    <h2>阶段四 · 发布与运维提示词记录 ⭐<small>作业完成后的部署阶段：与 AI 的工程协作对话（WorkBuddy 会话）</small></h2>
+    <p><b>背景</b>：任务一至任务三的页面代码完成后，需要一个老师能直接打开的公网网址交作业。以下为该阶段的原始提示词与关键往返。</p>
+
+    <h3>提示词 1（发布作业网页）</h3>
+    <div class="quote">@swiper.zip @swiper-imgs.zip @swiper-task.html 根据第三个文件帮我做一下</div>
+    <div class="quote ai">解压两个压缩包搭建项目结构，补全 swiper-task.html 底部 4 个轮播的 JS 初始化代码（基础拖动 / loop+pagination+navigation / autoplay+disableOnInteraction / effect 切换 destroy+new 重建），并用浏览器自动化逐项验证：4 个实例初始化、自动播放运行、cube 切换成功、控制台零报错。</div>
+
+    <h3>提示词 2（要交作业网址）</h3>
+    <div class="quote">交网址交哪个</div>
+    <div class="quote ai">先用 CloudStudio 把站点部署成分享链接，随后发现该链接带访问鉴权、外部打开返回 403「链接不完整」，不适合交作业；改用 GitHub Pages：把站点放进已有公开仓库的 swiper-task/ 子目录推送，得到公网网址并实测可访问。</div>
+
+    <h3>提示词 3（拿着报错截图来问）</h3>
+    <div class="quote">（附 CloudStudio 链接打开后显示"链接不完整"的截图）我打开是这样的对吗</div>
+    <div class="quote ai">确认 403 是访问鉴权所致，该链接只有本机客户端能打开；重新给出真正公开的网址：han7821.github.io/zhangzhonghan209/swiper-task/，并现场验证 4 个轮播、圆点、自动播放、cube 切换全部正常。</div>
+
+    <h3>提示词 4（找文件位置）</h3>
+    <div class="quote">这个在哪个文件夹</div>
+    <div class="quote ai">说明本地目录结构：作业主文件 swiper-task.html、组件库 swiper/、图片 swiper-imgs/，以及上传到 GitHub 的 repo-tmp/swiper-task/ 副本；并提醒 html 不能单独挪走，否则相对路径失效。</div>
+
+    <h3>提示词 5（核对文件数量）</h3>
+    <div class="quote">正常下面是7个 这只有6个</div>
+    <div class="quote ai">排查后确认是本地旧副本与线上最新版本不一致：远端仓库有更新的提交（新增文件），以 GitHub 线上为准。</div>
+
+    <h3>提示词 6（定位提示词文档）</h3>
+    <div class="quote">提示词文件在哪</div>
+    <div class="quote ai">给出两个入口：线上 han7821.github.io/zhangzhonghan209/swiper-task/prompts.html 与本地 repo-tmp/swiper-task/prompts.html，并确认线上可正常访问（200）。</div>
+
+    <h3>提示词 7（生成本文档）</h3>
+    <div class="quote">我的历史提示词都帮我生成一下存到文档里作为提示词文件</div>
+    <div class="quote ai">把两个会话的全部历史提示词汇总：任务一至任务三的作业提示词（本页上半部分）+ 本阶段发布运维提示词（本卡片），统一写入 prompts.html 并推送到 GitHub Pages。</div>
+
+    <h3>运维结论</h3>
+    <div class="check"><b>✔ 作业网址</b>：https://han7821.github.io/zhangzhonghan209/swiper-task/ （公网可访问，无需登录）<br>
+    <b>✔ 提示词文档</b>：https://han7821.github.io/zhangzhonghan209/swiper-task/prompts.html<br>
+    <b>✔ 教训</b>：CloudStudio 分享链接带鉴权不能外交作业，公开静态站点走 GitHub Pages 更可靠；html 与其依赖文件夹必须整体一起提交。</div>
+  </div>
+
   <!-- 提交清单 -->
   <div class="card">
     <h2>提交清单自查<small>对照作业要求逐项过检</small></h2>
@@ -228,6 +267,7 @@
       <b>✔ 任务二</b>：演示四新增第 7 个按钮「creative 电影墙」+ prev/next 含义用自己的话写明<br>
       <b>✔ 任务三①</b>：第六件展品爱达·魔都号（AI 生成图，slide 结构完整，加入全部演示）<br>
       <b>✔ 任务三②</b>：超纲能力 keyboard 键盘控制（含第 1 版问题的发现与修正过程）<br>
+      <b>✔ 阶段四</b>：发布与运维阶段的提示词记录（GitHub Pages 部署、链接排障）<br>
       <b>✔ 全程</b>：保留提示词记录，能讲清每段代码，可现场改参数；本页面即为与 AI 的关键对话记录（提示词 + 重要往返 + 自查踩坑）
     </div>
   </div>
