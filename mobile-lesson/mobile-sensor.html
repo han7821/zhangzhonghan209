@@ -10,6 +10,8 @@
   说明：任务四 摇一摇彩蛋。
         监听 devicemotion，用 accelerationIncludingGravity 计算合成加速度，
         超过阈值 18 判定为摇动；触发后进入 1.5 秒冷却，防止一次摇动重复触发。
+        另加倾斜触发：监听 deviceorientation 的 beta / gamma，
+        倾斜角度超过 45° 也能抽一次（回正到 15° 以内才重新上膛）。
   为什么必须做降级：
         传感器事件不是所有设备 / 浏览器都有（电脑浏览器几乎没有，部分安卓机也会屏蔽），
         没有数据时如果不降级，页面会一直显示"等待摇动"，用户会以为坏了。
@@ -89,7 +91,7 @@
 <body>
 
 <h1>摇一摇 · 今日菜谱</h1>
-<p class="wy_sub">摇一摇手机，抽一道今天该吃的中餐<br>（没有传感器也能点按钮抽一次）</p>
+<p class="wy_sub">摇一摇或倾斜手机，抽一道今天该吃的中餐<br>（没有传感器也能点按钮抽一次）</p>
 
 <div class="wy_phone">📱</div>
 
@@ -102,7 +104,7 @@
 <button class="wy_btn" id="wyPermit" style="display:none;background:linear-gradient(135deg,#ffd479,#ffab3d)">开启传感器权限</button>
 
 <p class="wy_status" id="wyStatus">正在检测设备传感器……</p>
-<span class="wy_count" id="wyCount">加速度 —</span>
+<span class="wy_count" id="wyCount">加速度 — · 倾角 —</span>
 
 <script>
 /* ================= 菜谱数据 ================= */
@@ -126,11 +128,25 @@ var wy_count   = document.getElementById('wyCount');
 
 /* ================= 状态 ================= */
 var WY_THRESHOLD = 18;     // 合成加速度阈值（含重力，静止时约 9.8）
+var WY_TILT      = 45;     // 倾斜角度阈值（度）：beta 或 gamma 超过它就触发
 var WY_COOLDOWN  = 1500;   // 1.5 秒冷却，防止一次摇动触发十几次
 
 var wy_lastHit    = 0;     // 上次触发时间
 var wy_hasData    = false; // 是否真的收到过传感器数据
 var wy_permitted  = false; // iOS 是否已授权
+
+// 摇动 / 倾斜各自的"上膛"标记：
+// 触发一次后先下膛，等回到静止（或回正）才重新上膛，
+// 否则用户一直摇 / 一直歪着，冷却一过就会每 1.5 秒抽一次。
+var wy_shakeArmed = true;
+var wy_tiltArmed  = true;
+
+var wy_magText = '—', wy_tiltText = '—';
+
+// 右下角实时数据显示
+function wy_hud() {
+  wy_count.textContent = '加速度 ' + wy_magText + ' · 倾角 ' + wy_tiltText;
+}
 
 /* ================= 抽签 ================= */
 function wy_draw(reason) {
@@ -163,31 +179,75 @@ function wy_onMotion(e) {
   // 合成加速度 = √(x² + y² + z²)，静止放桌上约等于 9.8
   var wy_mag = Math.sqrt(x * x + y * y + z * z);
 
-  wy_count.textContent = '加速度 ' + wy_mag.toFixed(1);
-  wy_status.textContent = '传感器已就绪 · 阈值 ' + WY_THRESHOLD + ' · 冷却 1.5s';
+  wy_magText = wy_mag.toFixed(1);
+  wy_hud();
+  wy_status.textContent = '传感器已就绪 · 摇动阈值 ' + WY_THRESHOLD + ' · 倾斜阈值 ' + WY_TILT + '° · 冷却 1.5s';
   wy_status.className = 'wy_status';
 
-  // 超过阈值 → 判定为摇动
+  // 超过阈值 → 判定为摇动（摇一次只抽一次，静止后才重新上膛）
   if (wy_mag > WY_THRESHOLD) {
-    wy_draw('摇一摇抽到的');
+    if (wy_shakeArmed) {
+      wy_shakeArmed = false;
+      wy_draw('摇一摇抽到的');
+    }
+  } else if (wy_mag < 12) {
+    wy_shakeArmed = true;
+  }
+}
+
+/* ================= 倾斜检测 ================= */
+// beta  ：绕 X 轴（前后点头），范围 -180~180
+// gamma ：绕 Y 轴（左右侧倾），范围 -90~90
+function wy_onOrient(e) {
+  if (e.beta === null && e.gamma === null) return;   // 设备没有陀螺仪
+
+  wy_hasData = true;
+
+  var b = e.beta || 0, g = e.gamma || 0;
+  var wy_tilt = Math.max(Math.abs(b), Math.abs(g));   // 取前后 / 左右里更大的那个倾角
+
+  wy_tiltText = wy_tilt.toFixed(0) + '°';
+  wy_hud();
+
+  if (wy_tilt > WY_TILT) {
+    if (wy_tiltArmed) {
+      wy_tiltArmed = false;
+      wy_draw('倾斜手机抽到的');
+    }
+  } else if (wy_tilt < 15) {
+    wy_tiltArmed = true;   // 回正后才允许下一次倾斜触发
   }
 }
 
 /* ================= iOS 13+ 权限 ================= */
-// iOS 必须在"用户点击"之后才能申请传感器权限，不能自动申请
-if (typeof DeviceMotionEvent !== 'undefined' &&
-    typeof DeviceMotionEvent.requestPermission === 'function') {
+// iOS 必须在"用户点击"之后才能申请传感器权限，不能自动申请；
+// 摇一摇（motion）和倾斜（orientation）是两套权限，要分别申请
+var wy_needPermit =
+  (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') ||
+  (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function');
+
+if (wy_needPermit) {
   wy_permit.style.display = 'inline-block';
   wy_status.textContent = 'iOS 设备需要先点击下方按钮授权传感器';
 }
 
 wy_permit.addEventListener('click', function () {
-  DeviceMotionEvent.requestPermission().then(function (state) {
-    if (state === 'granted') {
+  var wy_reqs = [];
+  if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+    wy_reqs.push(DeviceMotionEvent.requestPermission());
+  }
+  if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    wy_reqs.push(DeviceOrientationEvent.requestPermission());
+  }
+
+  Promise.all(wy_reqs).then(function (states) {
+    var wy_ok = states.every(function (s) { return s === 'granted'; });
+    if (wy_ok) {
       wy_permitted = true;
       wy_permit.style.display = 'none';
       window.addEventListener('devicemotion', wy_onMotion);
-      wy_status.textContent = '已授权 · 摇一摇手机试试';
+      window.addEventListener('deviceorientation', wy_onOrient);
+      wy_status.textContent = '已授权 · 摇一摇或倾斜手机试试';
     } else {
       wy_status.innerHTML = '<span class="wy_warn">权限被拒绝，可点「点我抽一次」降级使用</span>';
       wy_permit.style.display = 'none';
@@ -205,6 +265,7 @@ wy_manual.addEventListener('click', function () {
 
 /* ================= 挂监听 + 超时降级 ================= */
 window.addEventListener('devicemotion', wy_onMotion);
+window.addEventListener('deviceorientation', wy_onOrient);
 
 // 1.6 秒内收不到任何传感器数据 → 判定设备不支持，给出降级提示
 setTimeout(function () {
@@ -212,7 +273,7 @@ setTimeout(function () {
   wy_status.innerHTML =
     '<span class="wy_warn">当前设备不支持，请用手机打开</span><br>' +
     '也可以直接点上面的「点我抽一次」';
-  wy_count.textContent = '加速度 无数据';
+  wy_count.textContent = '加速度 — · 倾角 — 无数据';
 }, 1600);
 
 /* ================= 清理 ================= */
