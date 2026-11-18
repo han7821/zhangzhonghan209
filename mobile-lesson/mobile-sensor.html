@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>摇一摇 · 今日菜谱</title>
+<!--
+  文件名：mobile-sensor.html
+  姓名：________    学号：____________
+  说明：任务四 摇一摇彩蛋。
+        监听 devicemotion，用 accelerationIncludingGravity 计算合成加速度，
+        超过阈值 18 判定为摇动；触发后进入 1.5 秒冷却，防止一次摇动重复触发。
+  为什么必须做降级：
+        传感器事件不是所有设备 / 浏览器都有（电脑浏览器几乎没有，部分安卓机也会屏蔽），
+        没有数据时如果不降级，页面会一直显示"等待摇动"，用户会以为坏了。
+        所以必须：① 检测不到事件或收不到数据 → 提示"当前设备不支持"；
+                  ② 同时给一个"点我抽一次"的按钮，让流程照样能走完。
+-->
+<style>
+  * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; padding: 34px 22px 44px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: radial-gradient(900px 500px at 50% 0%, #2b2145 0%, #151020 55%, #0a0812 100%);
+    color: #efeaf7; font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    text-align: center; user-select: none; -webkit-user-select: none;
+  }
+  h1 { margin: 0 0 8px; font-size: 22px; letter-spacing: 3px; }
+  .wy_sub { margin: 0 0 30px; font-size: 12px; color: #8f86a6; line-height: 1.8; }
+
+  .wy_phone {
+    font-size: 76px; line-height: 1; margin-bottom: 22px;
+    animation: wy_shake 2.2s ease-in-out infinite;
+    transform-origin: 50% 80%;
+  }
+  @keyframes wy_shake {
+    0%, 62%, 100% { transform: rotate(0deg); }
+    66% { transform: rotate(-13deg); }
+    70% { transform: rotate(13deg); }
+    74% { transform: rotate(-9deg); }
+    78% { transform: rotate(9deg); }
+    82% { transform: rotate(0deg); }
+  }
+
+  .wy_result {
+    min-height: 132px; width: 100%; max-width: 340px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; padding: 20px; border-radius: 22px;
+    background: rgba(255,255,255,.045);
+    border: 1px dashed rgba(255,255,255,.16);
+    font-size: 14px; color: #a99fc0; line-height: 1.7;
+  }
+  .wy_result.wy_hit {
+    border: 1px solid rgba(183,139,255,.55);
+    background: linear-gradient(160deg, rgba(183,139,255,.18), rgba(255,255,255,.04));
+  }
+  .wy_food { font-size: 26px; letter-spacing: 2px; color: #fff; font-weight: 700; }
+  .wy_note { font-size: 12px; color: #9c92be; }
+  .wy_pop { animation: wy_pop .45s cubic-bezier(.2,1.4,.4,1); }
+  @keyframes wy_pop {
+    0% { transform: scale(.6); opacity: 0; }
+    60% { transform: scale(1.08); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .wy_btn {
+    margin-top: 26px; padding: 13px 30px; border: 0; border-radius: 999px;
+    font-size: 14px; letter-spacing: 1px; color: #140f22; font-weight: 700;
+    background: linear-gradient(135deg, #c9a9ff, #8f6bff);
+    box-shadow: 0 12px 26px rgba(143, 107, 255, .35);
+    cursor: pointer; transition: transform .15s ease, opacity .2s ease;
+  }
+  .wy_btn:active { transform: scale(.96); }
+  .wy_btn[disabled] { opacity: .45; }
+
+  .wy_status {
+    margin-top: 20px; font-size: 12px; color: #7d7396; line-height: 1.8;
+    max-width: 340px;
+  }
+  .wy_warn { color: #ffb86b; }
+  .wy_count {
+    position: fixed; right: 16px; bottom: 16px; font-size: 11px;
+    padding: 7px 12px; border-radius: 999px; color: #9c92be;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+    font-variant-numeric: tabular-nums;
+  }
+</style>
+</head>
+<body>
+
+<h1>摇一摇 · 今日菜谱</h1>
+<p class="wy_sub">摇一摇手机，抽一道今天该吃的中餐<br>（没有传感器也能点按钮抽一次）</p>
+
+<div class="wy_phone">📱</div>
+
+<div class="wy_result" id="wyResult">
+  <span>等待摇动……</span>
+  <span class="wy_note">用力摇几下试试</span>
+</div>
+
+<button class="wy_btn" id="wyManual">点我抽一次</button>
+<button class="wy_btn" id="wyPermit" style="display:none;background:linear-gradient(135deg,#ffd479,#ffab3d)">开启传感器权限</button>
+
+<p class="wy_status" id="wyStatus">正在检测设备传感器……</p>
+<span class="wy_count" id="wyCount">加速度 —</span>
+
+<script>
+/* ================= 菜谱数据 ================= */
+var wy_menu = [
+  { name: '北京烤鸭', emoji: '🦆' },
+  { name: '重庆小面', emoji: '🍜' },
+  { name: '广式虾饺', emoji: '🥟' },
+  { name: '兰州牛肉面', emoji: '🐄' },
+  { name: '麻婆豆腐', emoji: '🌶️' },
+  { name: '小笼包', emoji: '🥠' },
+  { name: '糖醋排骨', emoji: '🍖' },
+  { name: '扬州炒饭', emoji: '🍚' }
+];
+
+/* ================= 元素 ================= */
+var wy_result  = document.getElementById('wyResult');
+var wy_status  = document.getElementById('wyStatus');
+var wy_manual  = document.getElementById('wyManual');
+var wy_permit  = document.getElementById('wyPermit');
+var wy_count   = document.getElementById('wyCount');
+
+/* ================= 状态 ================= */
+var WY_THRESHOLD = 18;     // 合成加速度阈值（含重力，静止时约 9.8）
+var WY_COOLDOWN  = 1500;   // 1.5 秒冷却，防止一次摇动触发十几次
+
+var wy_lastHit    = 0;     // 上次触发时间
+var wy_hasData    = false; // 是否真的收到过传感器数据
+var wy_permitted  = false; // iOS 是否已授权
+
+/* ================= 抽签 ================= */
+function wy_draw(reason) {
+  var wy_now = Date.now();
+  if (wy_now - wy_lastHit < WY_COOLDOWN) return;  // 冷却中，直接忽略
+  wy_lastHit = wy_now;
+
+  var item = wy_menu[Math.floor(Math.random() * wy_menu.length)];
+
+  wy_result.className = 'wy_result wy_hit';
+  wy_result.innerHTML =
+    '<span class="wy_food wy_pop">' + item.emoji + ' ' + item.name + '</span>' +
+    '<span class="wy_note">' + reason + '</span>';
+
+  // 轻微震动反馈（支持才有效）
+  if (navigator.vibrate) navigator.vibrate(40);
+}
+
+/* ================= 摇动检测 ================= */
+function wy_onMotion(e) {
+  // accelerationIncludingGravity 含重力加速度，安卓/iOS 都稳定提供
+  // 注意：部分浏览器只有 acceleration，没有 IncludingGravity
+  var a = e.accelerationIncludingGravity;
+  if (!a || (a.x === null && a.y === null && a.z === null)) return;
+
+  wy_hasData = true;
+  wy_permitted = true;
+
+  var x = a.x || 0, y = a.y || 0, z = a.z || 0;
+  // 合成加速度 = √(x² + y² + z²)，静止放桌上约等于 9.8
+  var wy_mag = Math.sqrt(x * x + y * y + z * z);
+
+  wy_count.textContent = '加速度 ' + wy_mag.toFixed(1);
+  wy_status.textContent = '传感器已就绪 · 阈值 ' + WY_THRESHOLD + ' · 冷却 1.5s';
+  wy_status.className = 'wy_status';
+
+  // 超过阈值 → 判定为摇动
+  if (wy_mag > WY_THRESHOLD) {
+    wy_draw('摇一摇抽到的');
+  }
+}
+
+/* ================= iOS 13+ 权限 ================= */
+// iOS 必须在"用户点击"之后才能申请传感器权限，不能自动申请
+if (typeof DeviceMotionEvent !== 'undefined' &&
+    typeof DeviceMotionEvent.requestPermission === 'function') {
+  wy_permit.style.display = 'inline-block';
+  wy_status.textContent = 'iOS 设备需要先点击下方按钮授权传感器';
+}
+
+wy_permit.addEventListener('click', function () {
+  DeviceMotionEvent.requestPermission().then(function (state) {
+    if (state === 'granted') {
+      wy_permitted = true;
+      wy_permit.style.display = 'none';
+      window.addEventListener('devicemotion', wy_onMotion);
+      wy_status.textContent = '已授权 · 摇一摇手机试试';
+    } else {
+      wy_status.innerHTML = '<span class="wy_warn">权限被拒绝，可点「点我抽一次」降级使用</span>';
+      wy_permit.style.display = 'none';
+    }
+  }).catch(function () {
+    wy_status.innerHTML = '<span class="wy_warn">当前环境不支持传感器，可点「点我抽一次」</span>';
+    wy_permit.style.display = 'none';
+  });
+});
+
+/* ================= 降级：手动抽 ================= */
+wy_manual.addEventListener('click', function () {
+  wy_draw('手动抽到的');
+});
+
+/* ================= 挂监听 + 超时降级 ================= */
+window.addEventListener('devicemotion', wy_onMotion);
+
+// 1.6 秒内收不到任何传感器数据 → 判定设备不支持，给出降级提示
+setTimeout(function () {
+  if (wy_hasData) return;
+  wy_status.innerHTML =
+    '<span class="wy_warn">当前设备不支持，请用手机打开</span><br>' +
+    '也可以直接点上面的「点我抽一次」';
+  wy_count.textContent = '加速度 无数据';
+}, 1600);
+
+/* ================= 清理 ================= */
+// 页面隐藏时不再处理，避免后台误触发
+document.addEventListener('visibilitychange', function () {
+  if (document.hidden) wy_lastHit = Date.now();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<!-- ① 移动端必备：viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>手势卡片 · 中华美食</title>
+<!--
+  文件名：mobile-gesture.html
+  姓名：________    学号：____________
+  说明：任务二 手势卡片。左右滑动切换 4 道中华美食。
+        阈值 40px、冷却 300ms、边界提示、0.3s 过渡动画。
+-->
+<style>
+  * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; padding: 28px 20px 40px;
+    background: radial-gradient(1200px 600px at 50% -10%, #2a2140 0%, #14101f 55%, #0b0912 100%);
+    color: #efeaf7; font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  }
+  .wy_head { text-align: center; margin-bottom: 22px; }
+  .wy_head h1 { margin: 0 0 6px; font-size: 21px; letter-spacing: 2px; }
+  .wy_head p { margin: 0; font-size: 12px; color: #8f86a6; }
+
+  /* ③ 只给要接管手势的这块容器加 touch-action，纵向仍可滚动 */
+  .wy_stage {
+    touch-action: pan-y;   /* 只接管横向手势，纵向交给浏览器 */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  .wy_card {
+    position: relative;
+    height: 380px;
+    border-radius: 24px;
+    padding: 30px 26px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, .45);
+    overflow: hidden;
+    transition: transform .3s ease, opacity .3s ease;  /* 0.3s 过渡动画 */
+    will-change: transform, opacity;
+  }
+  .wy_card::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,.55) 100%);
+  }
+  .wy_idx_badge {
+    position: absolute; top: 18px; left: 20px; z-index: 2;
+    font-size: 12px; padding: 5px 12px; border-radius: 999px;
+    background: rgba(0, 0, 0, .32); backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, .22);
+  }
+  .wy_card h2 {
+    position: relative; z-index: 2; margin: 0 0 10px;
+    font-size: 34px; letter-spacing: 3px; text-shadow: 0 4px 16px rgba(0,0,0,.5);
+  }
+  .wy_card p {
+    position: relative; z-index: 2; margin: 0; line-height: 1.75;
+    font-size: 14px; color: rgba(255,255,255,.9);
+  }
+  .wy_emoji { position: absolute; top: 26px; right: 24px; font-size: 62px; z-index: 2; opacity: .95; }
+
+  .wy_bar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 18px; font-size: 13px; color: #a99fc0;
+  }
+  .wy_bar b { color: #fff; font-size: 15px; }
+  .wy_dots { display: flex; gap: 7px; }
+  .wy_dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,.22); transition: all .3s ease;
+  }
+  .wy_dot.wy_on { width: 20px; border-radius: 999px; background: #b78bff; }
+
+  .wy_tip {
+    margin-top: 18px; text-align: center; font-size: 12px; color: #7d7396;
+  }
+
+  /* 边界提示 toast */
+  .wy_toast {
+    position: fixed; left: 50%; bottom: 60px;
+    transform: translate(-50%, 20px);
+    padding: 11px 20px; border-radius: 999px; font-size: 13px;
+    background: rgba(30, 24, 45, .94); color: #fff;
+    border: 1px solid rgba(183, 139, 255, .45);
+    box-shadow: 0 10px 30px rgba(0,0,0,.5);
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease;
+    white-space: nowrap;
+  }
+  .wy_toast.wy_show { opacity: 1; transform: translate(-50%, 0); }
+</style>
+</head>
+<body>
+
+<div class="wy_head">
+  <h1>中华美食 · 手势卡片</h1>
+  <p>左右滑动切换菜品 · 手机上体验更佳</p>
+</div>
+
+<div class="wy_stage" id="wyStage">
+  <div class="wy_card" id="wyCard">
+    <div class="wy_idx_badge" id="wyBadge">第 1 / 4 张</div>
+    <div class="wy_emoji" id="wyEmoji">🦆</div>
+    <h2 id="wyName">北京烤鸭</h2>
+    <p id="wyDesc">果木炭火慢烤，皮酥肉嫩，片成薄片配荷叶饼、甜面酱与葱丝，一口下去满嘴焦香。</p>
+  </div>
+
+  <div class="wy_bar">
+    <span>第 <b id="wyNow">1</b> / 4 张</span>
+    <div class="wy_dots" id="wyDots"></div>
+  </div>
+</div>
+
+<p class="wy_tip">👈 左滑下一张　右滑上一张 👉</p>
+<div class="wy_toast" id="wyToast"></div>
+
+<script>
+/* ============ 数据 ============ */
+var wy_list = [
+  {
+    name: '北京烤鸭',
+    emoji: '🦆',
+    desc: '果木炭火慢烤，皮酥肉嫩，片成薄片配荷叶饼、甜面酱与葱丝，一口下去满嘴焦香。',
+    bg: 'linear-gradient(150deg, #b3341f 0%, #6d1a10 55%, #2c0a06 100%)'
+  },
+  {
+    name: '重庆小面',
+    emoji: '🍜',
+    desc: '红油泼辣子打底，花椒面提麻，碱水面筋道弹牙，一碗下肚麻辣鲜香直冲头顶。',
+    bg: 'linear-gradient(150deg, #c2410c 0%, #7c2d12 55%, #1f0a04 100%)'
+  },
+  {
+    name: '广式早茶',
+    emoji: '🥟',
+    desc: '一盅两件，虾饺皮薄透亮，烧卖汁水丰盈，配一壶普洱，慢悠悠坐一上午。',
+    bg: 'linear-gradient(150deg, #0f766e 0%, #134e4a 55%, #06231f 100%)'
+  },
+  {
+    name: '兰州牛肉面',
+    emoji: '🐄',
+    desc: '一清二白三红四绿五黄：清汤、萝卜白、辣油红、蒜苗绿、面条黄亮，手工拉出九种粗细。',
+    bg: 'linear-gradient(150deg, #1e40af 0%, #1e2f6b 55%, #0a1026 100%)'
+  }
+];
+
+/* ============ 状态 ============ */
+var wy_card   = document.getElementById('wyCard');
+var wy_stage  = document.getElementById('wyStage');
+var wy_name   = document.getElementById('wyName');
+var wy_desc   = document.getElementById('wyDesc');
+var wy_emoji  = document.getElementById('wyEmoji');
+var wy_badge  = document.getElementById('wyBadge');
+var wy_now    = document.getElementById('wyNow');
+var wy_dots   = document.getElementById('wyDots');
+var wy_toast  = document.getElementById('wyToast');
+
+var wy_index   = 0;      // 当前第几张（0 起）
+var wy_startX  = 0;      // 按下时的 x
+var wy_startY  = 0;      // 按下时的 y
+var wy_lock    = false;  // 冷却锁：防止快速连滑一次跳两张
+var wy_toastTimer = null;
+
+var WY_THRESHOLD = 40;   // 滑动阈值 40px：小于它当误触
+var WY_COOLDOWN  = 300;  // 冷却 300ms
+
+/* ============ 初始化 ============ */
+function wy_render() {
+  var item = wy_list[wy_index];
+  wy_card.style.background = item.bg;
+  wy_name.textContent  = item.name;
+  wy_desc.textContent  = item.desc;
+  wy_emoji.textContent = item.emoji;
+  wy_badge.textContent = '第 ' + (wy_index + 1) + ' / ' + wy_list.length + ' 张';
+  wy_now.textContent   = wy_index + 1;
+
+  var html = '';
+  for (var i = 0; i < wy_list.length; i++) {
+    html += '<span class="wy_dot' + (i === wy_index ? ' wy_on' : '') + '"></span>';
+  }
+  wy_dots.innerHTML = html;
+}
+
+/* ============ 切换（带 0.3s 过渡） ============ */
+// wy_dir: 1 表示往左滑（切下一张），-1 表示往右滑（切上一张）
+function wy_switch(wy_dir) {
+  wy_lock = true;
+  wy_card.style.transition = 'transform .3s ease, opacity .3s ease';
+  // 先滑出
+  wy_card.style.transform = 'translateX(' + (-wy_dir * 60) + 'px)';
+  wy_card.style.opacity = '0';
+
+  setTimeout(function () {
+    // 换内容
+    wy_index += wy_dir;
+    wy_render();
+
+    // 从反方向预备进场
+    wy_card.style.transition = 'none';
+    wy_card.style.transform = 'translateX(' + (wy_dir * 60) + 'px)';
+    void wy_card.offsetWidth; // 强制重排，让上面的 transform 立即生效
+
+    wy_card.style.transition = 'transform .3s ease, opacity .3s ease';
+    wy_card.style.transform = 'translateX(0)';
+    wy_card.style.opacity = '1';
+  }, 150);
+
+  // 释放冷却锁
+  setTimeout(function () { wy_lock = false; }, WY_COOLDOWN + 150);
+}
+
+/* ============ 边界提示 ============ */
+function wy_showToast(msg) {
+  wy_toast.textContent = msg;
+  wy_toast.classList.add('wy_show');
+  clearTimeout(wy_toastTimer);
+  wy_toastTimer = setTimeout(function () {
+    wy_toast.classList.remove('wy_show');
+  }, 1400);
+}
+
+/* ============ 触摸事件 ============ */
+wy_stage.addEventListener('touchstart', function (e) {
+  var wy_t = e.touches[0];
+  wy_startX = wy_t.clientX;
+  wy_startY = wy_t.clientY;
+}, { passive: true });
+
+wy_stage.addEventListener('touchend', function (e) {
+  // 抬手时这根手指已从 touches 移除，必须用 changedTouches[0]
+  var wy_t = e.changedTouches[0];
+  var wy_dx = wy_t.clientX - wy_startX;
+  var wy_dy = wy_t.clientY - wy_startY;
+
+  // 纵向位移更大 → 用户其实在上下滚页面，不处理
+  if (Math.abs(wy_dy) > Math.abs(wy_dx)) return;
+
+  // 阈值判断：小于 40px 视为误触
+  if (Math.abs(wy_dx) < WY_THRESHOLD) return;
+
+  // 冷却中：忽略，避免快速连滑一次跳两张
+  if (wy_lock) return;
+
+  if (wy_dx < 0) {
+    // 左滑 → 下一张
+    if (wy_index >= wy_list.length - 1) {
+      wy_showToast('已经是最后一张了');
+      return;
+    }
+    wy_switch(1);
+  } else {
+    // 右滑 → 上一张
+    if (wy_index <= 0) {
+      wy_showToast('已经是第一张了');
+      return;
+    }
+    wy_switch(-1);
+  }
+}, { passive: true });
+
+// 被来电 / 通知打断时清理状态，避免"卡住"
+wy_stage.addEventListener('touchcancel', function () {
+  wy_lock = false;
+});
+
+/* ============ 键盘兜底（电脑调试用） ============ */
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'ArrowLeft' && wy_index > 0) wy_switch(-1);
+  if (e.key === 'ArrowRight' && wy_index < wy_list.length - 1) wy_switch(1);
+});
+
+wy_render();
+</script>
+</body>
+</html>

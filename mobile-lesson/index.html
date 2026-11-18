@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动端触摸交互 · 实践作业</title>
+<!--
+  文件名：index.html（作业总入口）
+  姓名：________    学号：____________
+  说明：一个链接汇总三个任务演示，点卡片进入对应页面。
+-->
+<style>
+  * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px 20px 56px; min-height: 100vh;
+    background: radial-gradient(900px 520px at 50% -10%, #2b2145 0%, #151020 55%, #0a0812 100%);
+    color: #efeaf7; font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  }
+  .wy_head { max-width: 560px; margin: 0 auto 30px; }
+  .wy_badge {
+    display: inline-block; margin-bottom: 14px; padding: 5px 13px;
+    font-size: 11px; letter-spacing: 2px; color: #c9a9ff;
+    border: 1px solid rgba(183,139,255,.45); border-radius: 999px;
+    background: rgba(183,139,255,.1);
+  }
+  h1 { margin: 0 0 10px; font-size: 26px; letter-spacing: 3px; line-height: 1.4; }
+  .wy_sub { margin: 0; font-size: 13px; line-height: 1.9; color: #9c92be; }
+  .wy_sub b { color: #d9cfff; font-weight: 600; }
+
+  .wy_list { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .wy_item {
+    display: block; text-decoration: none; color: inherit;
+    padding: 20px 22px; border-radius: 20px; position: relative; overflow: hidden;
+    background: rgba(255,255,255,.045);
+    border: 1px solid rgba(255,255,255,.1);
+    transition: transform .18s ease, border-color .18s ease, background .18s ease;
+  }
+  .wy_item:active { transform: scale(.985); background: rgba(183,139,255,.1); }
+  .wy_item::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(180deg, #c9a9ff, #7c5cff);
+  }
+  .wy_row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .wy_star { font-size: 12px; letter-spacing: 1px; color: #ffd479; }
+  .wy_item h2 { margin: 0; font-size: 17px; letter-spacing: 1px; }
+  .wy_item p { margin: 0; font-size: 12.5px; line-height: 1.8; color: #9c92be; }
+  .wy_tags { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 7px; }
+  .wy_tag {
+    font-size: 11px; padding: 4px 10px; border-radius: 999px; color: #b8accf;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09);
+  }
+  .wy_go {
+    position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+    font-size: 12px; color: #c9a9ff; letter-spacing: 1px;
+  }
+  .wy_foot {
+    max-width: 560px; margin: 30px auto 0; padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    font-size: 11.5px; line-height: 1.9; color: #7d7396; text-align: center;
+  }
+  .wy_foot b { color: #a99fc0; }
+</style>
+</head>
+<body>
+
+<div class="wy_head">
+  <span class="wy_badge">移动端 · 触摸交互</span>
+  <h1>按下 · 滑动 · 缩放</h1>
+  <p class="wy_sub">本页汇总 <b>三个实践任务</b> 的演示入口。<br>📱 请用手机打开；电脑上可用浏览器的设备模式体验单指操作。</p>
+</div>
+
+<div class="wy_list">
+
+  <a class="wy_item" href="mobile-gesture.html">
+    <div class="wy_row">
+      <span class="wy_star">⭐⭐</span>
+      <h2>任务二 · 手势卡片</h2>
+    </div>
+    <p>4 道中华美食卡片，左滑下一张、右滑上一张。<br>阈值 40px 防误触 · 300ms 冷却防连滑 · 边界提示 · 0.3s 过渡</p>
+    <div class="wy_tags">
+      <span class="wy_tag">touchstart / touchend</span>
+      <span class="wy_tag">changedTouches</span>
+      <span class="wy_tag">touch-action: pan-y</span>
+    </div>
+    <span class="wy_go">进入 ›</span>
+  </a>
+
+  <a class="wy_item" href="mobile-zoom.html">
+    <div class="wy_row">
+      <span class="wy_star">⭐⭐⭐</span>
+      <h2>任务三 · 图片查看器</h2>
+    </div>
+    <p>双指缩放 1x～4x、双击 1x/2x 切换、放大后单指拖动。<br>缩放以两指中点为基准，画面不跳；缩回 1x 自动居中</p>
+    <div class="wy_tags">
+      <span class="wy_tag">多指手势</span>
+      <span class="wy_tag">transform</span>
+      <span class="wy_tag">边界限制</span>
+    </div>
+    <span class="wy_go">进入 ›</span>
+  </a>
+
+  <a class="wy_item" href="mobile-sensor.html">
+    <div class="wy_row">
+      <span class="wy_star">⭐⭐⭐⭐</span>
+      <h2>任务四 · 摇一摇彩蛋</h2>
+    </div>
+    <p>摇动手机抽一道今日菜谱，阈值 18 · 1.5s 冷却。<br>无传感器时提示"设备不支持"，并提供手动抽取降级</p>
+    <div class="wy_tags">
+      <span class="wy_tag">devicemotion</span>
+      <span class="wy_tag">accelerationIncludingGravity</span>
+      <span class="wy_tag">降级方案</span>
+    </div>
+    <span class="wy_go">进入 ›</span>
+  </a>
+
+</div>
+
+<div class="wy_foot">
+  高级网页设计 · 移动端事件课堂实践<br>
+  姓名：<b>________</b>　学号：<b>____________</b>
+</div>
+
+</body>
+</html>
