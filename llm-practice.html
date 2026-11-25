@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<!--
+  姓名：张仲涵
+  学号：24002120209
+  建立时间：2026-11-25
+  使用模型：DeepSeek-V4.1-Flash
+  功能名称：LLM 实践测试展示页——在线客服 / 知识库问答 / 图像识别 / 语音识别 四大板块与实测截图
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM 实践测试展示 · 张仲涵</title>
+<style>
+  /* 全局：深色科技风 */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+    background: #0a0e1a; color: #dfe6f5; line-height: 1.8;
+  }
+  .wy_wrap_page { max-width: 1000px; margin: 0 auto; padding: 40px 22px 70px; }
+
+  /* 页头 */
+  .wy_head {
+    background: linear-gradient(135deg, #1b2a4d 0%, #3b2a6b 55%, #6b2a55 100%);
+    border-radius: 20px; padding: 34px 38px; margin-bottom: 30px;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, .45); position: relative; overflow: hidden;
+  }
+  .wy_head::after {
+    content: ""; position: absolute; right: -60px; top: -60px;
+    width: 220px; height: 220px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(124, 196, 255, .25), transparent 70%);
+  }
+  .wy_head .wy_tag {
+    display: inline-block; background: rgba(255, 255, 255, .12);
+    border: 1px solid rgba(255, 255, 255, .3); border-radius: 999px;
+    padding: 4px 16px; font-size: 13px; letter-spacing: 2px; margin-bottom: 14px;
+  }
+  .wy_head h1 { font-size: 30px; letter-spacing: 1px; color: #fff; }
+  .wy_head h1 b { color: #7cc4ff; }
+  .wy_head p { margin-top: 10px; font-size: 14px; color: #c6d2ea; }
+  .wy_head .wy_meta { margin-top: 14px; font-size: 13px; color: #9fb0d0; }
+
+  /* 功能板块卡片 */
+  .wy_sec {
+    background: #121829; border: 1px solid #223052; border-radius: 16px;
+    padding: 24px 28px; margin-bottom: 24px; box-shadow: 0 8px 22px rgba(0, 0, 0, .35);
+  }
+  .wy_sec-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+  .wy_sec-head .wy_no {
+    flex: none; width: 44px; height: 44px; border-radius: 12px;
+    background: linear-gradient(135deg, #2563eb, #7c3aed); color: #fff;
+    font-size: 19px; font-weight: bold; display: flex; align-items: center; justify-content: center;
+  }
+  .wy_sec-head h2 { font-size: 20px; color: #fff; }
+  .wy_sec-head small { display: block; font-weight: normal; color: #8296b8; font-size: 12.5px; margin-top: 2px; }
+  .wy_desc { font-size: 14px; color: #b9c6de; margin-bottom: 8px; }
+  .wy_desc b { color: #7cc4ff; }
+
+  /* 能力标签 */
+  .wy_dims { margin-bottom: 14px; }
+  .wy_dims i {
+    font-style: normal; display: inline-block; font-size: 12.5px; color: #9db4dd;
+    background: #1a2340; border: 1px solid #2c3d6b; border-radius: 999px;
+    padding: 3px 12px; margin: 0 6px 6px 0;
+  }
+
+  /* 截图块 */
+  .wy_shot { margin-top: 14px; }
+  .wy_shot-title { font-size: 13.5px; color: #7cc4ff; font-weight: bold; margin-bottom: 8px; }
+  .wy_shot figure { margin: 0 0 12px; }
+  .wy_shot img {
+    width: 100%; display: block; border: 1px solid #2c3d6b;
+    border-radius: 10px; box-shadow: 0 8px 20px rgba(0, 0, 0, .45);
+  }
+  .wy_shot figure.wy_narrow { max-width: 620px; margin-left: auto; margin-right: auto; }
+  .wy_shot figcaption { font-size: 12.5px; color: #8296b8; margin-top: 6px; padding-left: 4px; }
+  .wy_shot figcaption b { color: #a9c6f5; }
+
+  /* 实现说明 */
+  .wy_note { font-size: 13.5px; color: #aab8d2; }
+  .wy_note li { margin-left: 20px; margin-bottom: 6px; }
+  .wy_note code {
+    background: #1a2340; border: 1px solid #2c3d6b; border-radius: 6px;
+    padding: 1px 6px; font-size: 12.5px; color: #9cd0ff;
+  }
+
+  /* 底部链接 */
+  .wy_back { text-align: center; margin-top: 30px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .wy_back a {
+    display: inline-block; text-decoration: none; color: #7cc4ff; font-size: 14.5px;
+    font-weight: bold; border: 1px solid rgba(124, 196, 255, .45);
+    border-radius: 999px; padding: 10px 28px; transition: background .2s;
+  }
+  .wy_back a:hover { background: rgba(124, 196, 255, .12); }
+  .wy_foot { text-align: center; color: #5f7196; font-size: 12.5px; margin-top: 26px; }
+
+  @media (max-width: 640px) {
+    .wy_head { padding: 26px 22px; }
+    .wy_head h1 { font-size: 23px; }
+    .wy_sec { padding: 20px 18px; }
+    .wy_sec-head h2 { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wy_wrap_page">
+
+  <header class="wy_head">
+    <span class="wy_tag">LLM PRACTICE · RAG · MULTIMODAL</span>
+    <h1>大模型应用实践测试展示 · <b>四大功能实测</b></h1>
+    <p>在线客服对话、知识库检索问答（RAG）、图像识别、语音识别，全部由本地 Node.js + Express 后端转发大模型请求。</p>
+    <p class="wy_meta">张仲涵 · 24002120209 · 项目：科技资讯管理与图文展示（全栈实践）</p>
+  </header>
+
+  <!-- 1. 在线客服 -->
+  <section class="wy_sec">
+    <div class="wy_sec-head">
+      <div class="wy_no">01</div>
+      <div>
+        <h2>智能对话 · 中华美食街在线客服<small>chat.html · 硅基流动 / 七牛双服务商热切换</small></h2>
+      </div>
+    </div>
+    <p class="wy_desc">后端统一封装 <b>POST /api/chat</b>，Key 只存放在 <b>.env</b>；页面可切换服务商，多轮对话会带上完整历史消息。</p>
+    <div class="wy_dims">
+      <i>多轮上下文</i><i>system 人设</i><i>硅基流动 / 七牛</i><i>Key 不进前端</i><i>错误友好提示</i>
+    </div>
+    <div class="wy_shot">
+      <div class="wy_shot-title">实测截图</div>
+      <figure>
+        <img src="llm-imgs/chat.png" alt="中华美食街在线客服实测：营业时间与招牌菜问答">
+        <figcaption>依次提问「几点营业」「招牌菜有什么」——AI 按客服人设准确回答，底部显示当前服务商「硅基流动 · Qwen2.5-7B」</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 2. 知识库问答 -->
+  <section class="wy_sec">
+    <div class="wy_sec-head">
+      <div class="wy_no">02</div>
+      <div>
+        <h2>知识库问答 · 上传文档构建专属知识库<small>kb.html · RAG 检索增强问答</small></h2>
+      </div>
+    </div>
+    <p class="wy_desc">支持 <b>txt / md / pdf / doc / docx / ppt / pptx</b> 上传，后端解析正文、按约 500 字切分入库；提问时先检索 Top 3 片段，再交给大模型回答并展示来源。</p>
+    <div class="wy_dims">
+      <i>文件上传解析</i><i>知识片段切分</i><i>中文二元组检索</i><i>来源引用</i><i>知识库管理</i>
+    </div>
+    <div class="wy_shot">
+      <div class="wy_shot-title">实测截图（同一页面上下两部分）</div>
+      <figure>
+        <img src="llm-imgs/kb1.png" alt="知识库问答上半部：上传解析与知识库管理">
+        <figcaption><b>上半部：</b>上传《项目报告3.doc》等 3 个文件并解析成功，知识库列表可查看类型、大小、片段数并删除</figcaption>
+      </figure>
+      <figure>
+        <img src="llm-imgs/kb2.png" alt="知识库问答下半部：提问命中知识片段">
+        <figcaption><b>下半部：</b>提问「招牌菜有什么」命中《菜品与配送》片段，答出 4 道菜与价格，并附「来源 1」引用卡片</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 3. 图像识别 -->
+  <section class="wy_sec">
+    <div class="wy_sec-head">
+      <div class="wy_no">03</div>
+      <div>
+        <h2>图像识别 · 看图说话<small>multimodal.html · Qwen/Qwen3-VL-8B-Instruct</small></h2>
+      </div>
+    </div>
+    <p class="wy_desc">图片上传后由后端转 Base64，调用已有硅基流动 Key 的视觉模型，返回中文描述；后端控制台同步打印发送与收到的完整数据。</p>
+    <div class="wy_dims">
+      <i>图片 Base64</i><i>视觉模型</i><i>中文描述</i><i>≤8MB</i>
+    </div>
+    <div class="wy_shot">
+      <div class="wy_shot-title">实测截图（页面左栏）</div>
+      <figure class="wy_narrow">
+        <img src="llm-imgs/vision.png" alt="图像识别实测：农产品电商页面描述">
+        <figcaption>上传农产品电商页面截图——模型准确描述猕猴桃主体、价格标签「高山绿心猕猴桃 29.9 元/5 斤」与整体配色版式</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 4. 语音识别 -->
+  <section class="wy_sec">
+    <div class="wy_sec-head">
+      <div class="wy_no">04</div>
+      <div>
+        <h2>语音识别 · 语音转文字<small>multimodal.html · 七牛 qwen-audio-3.0-asr-flash</small></h2>
+      </div>
+    </div>
+    <p class="wy_desc">音频上传到 <b>POST /api/ai/asr</b>，后端转发七牛 <code>/v1/audio/transcriptions</code>，把 3 分钟歌曲准确转写为中文歌词，并返回音频时长。</p>
+    <div class="wy_dims">
+      <i>语音转文字</i><i>Qwen-Audio-3.0-ASR-Flash</i><i>时长统计</i><i>≤20MB</i>
+    </div>
+    <div class="wy_shot">
+      <div class="wy_shot-title">实测截图（页面右栏）</div>
+      <figure class="wy_narrow">
+        <img src="llm-imgs/asr.png" alt="语音识别实测：歌曲转写文字">
+        <figcaption>上传 3 分 03 秒歌曲——识别完成，模型 qwen-audio-3.0-asr-flash，输出完整歌词（接口计费时长 180 秒）</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 实现说明 -->
+  <section class="wy_sec">
+    <div class="wy_sec-head">
+      <div class="wy_no">05</div>
+      <div>
+        <h2>实现说明 · 技术栈与安全要点<small>Node.js + Express + MySQL + 原生前端</small></h2>
+      </div>
+    </div>
+    <ul class="wy_note">
+      <li>后端：<b>Express 4.19 + mysql2 + multer + pdf-parse + adm-zip</b>，RESTful + MVC，统一返回 <code>{ code, msg, data }</code></li>
+      <li>页面：原生 HTML / CSS / JS，未引入任何第三方库、框架或 CDN</li>
+      <li>安全：两个平台的 API Key 只写在 <code>backend/.env</code>，已被 <code>.gitignore</code> 排除，前端代码与页面源码中均不出现</li>
+      <li>日志：后端控制台输出「发送给大模型的数据」与「收到大模型的数据」，便于课堂演示核对</li>
+      <li>本页为静态展示，完整功能需本地运行 <code>start.bat</code> 启动 8209 端口服务</li>
+    </ul>
+  </section>
+
+  <div class="wy_back">
+    <a href="index.html">← 返回仓库首页</a>
+    <a href="https://cad-interview-might-diabetes.trycloudflare.com/" target="_blank" rel="noopener">在线演示（临时隧道，需本机服务在线）</a>
+  </div>
+
+  <p class="wy_foot">张仲涵 · 24002120209 · 全栈项目「科技资讯管理与图文展示」 · 2026-11-25</p>
+</div>
+</body>
+</html>
